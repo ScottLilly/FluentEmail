@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentEmail", "FluentEmail\FluentEmail.csproj", "{696768A9-2ECE-4595-8749-C0B3F6CCEE96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.FluentEmail", "Test.FluentEmail\Test.FluentEmail.csproj", "{ADA557CD-7C29-4FF3-B513-9BAC4CB6FB5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{696768A9-2ECE-4595-8749-C0B3F6CCEE96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{696768A9-2ECE-4595-8749-C0B3F6CCEE96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{696768A9-2ECE-4595-8749-C0B3F6CCEE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{696768A9-2ECE-4595-8749-C0B3F6CCEE96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADA557CD-7C29-4FF3-B513-9BAC4CB6FB5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADA557CD-7C29-4FF3-B513-9BAC4CB6FB5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADA557CD-7C29-4FF3-B513-9BAC4CB6FB5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADA557CD-7C29-4FF3-B513-9BAC4CB6FB5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF45FA18-9D98-49EE-8466-159B97E499F3}
+	EndGlobalSection
+EndGlobal
