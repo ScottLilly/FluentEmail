@@ -3,7 +3,7 @@ using System.Net.Mail;
 
 namespace FluentEmail
 {
-	public class FluentMailMessage : IMustAddFromAddress, IMustAddToAddress, ICanAddToAddressOrBuild
+	public class FluentMailMessage : IMustAddFromAddress, IMustAddToAddress, ICanAddToCcBccOrSubject, ICanBuild
 	{
 		// Instantiating functions
 
@@ -34,17 +34,52 @@ namespace FluentEmail
 			return this;
 		}
 
-		public ICanAddToAddressOrBuild To(string emailAddress)
+		public ICanAddToCcBccOrSubject To(string emailAddress)
 		{
 			return this;
 		}
 
-		public ICanAddToAddressOrBuild To(string emailAddress, string displayName)
+		public ICanAddToCcBccOrSubject To(string emailAddress, string displayName)
 		{
 			return this;
 		}
 
-		public ICanAddToAddressOrBuild To(MailAddress emailAddress)
+		public ICanAddToCcBccOrSubject To(MailAddress emailAddress)
+		{
+			return this;
+		}
+
+		public ICanAddToCcBccOrSubject CC(string emailAddress)
+		{
+			return this;
+		}
+
+		public ICanAddToCcBccOrSubject CC(string emailAddress, string displayName)
+		{
+			return this;
+		}
+
+		public ICanAddToCcBccOrSubject CC(MailAddress emailAddress)
+		{
+			return this;
+		}
+
+		public ICanAddToCcBccOrSubject BCC(string emailAddress)
+		{
+			return this;
+		}
+
+		public ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName)
+		{
+			return this;
+		}
+
+		public ICanAddToCcBccOrSubject BCC(MailAddress emailAddress)
+		{
+			return this;
+		}
+
+		public ICanBuild Subject(string subject)
 		{
 			return this;
 		}
@@ -89,17 +124,29 @@ namespace FluentEmail
 
 	public interface IMustAddToAddress
 	{
-		ICanAddToAddressOrBuild To(string emailAddress);
-		ICanAddToAddressOrBuild To(string emailAddress, string displayName);
-		ICanAddToAddressOrBuild To(MailAddress emailAddress);
+		ICanAddToCcBccOrSubject To(string emailAddress);
+		ICanAddToCcBccOrSubject To(string emailAddress, string displayName);
+		ICanAddToCcBccOrSubject To(MailAddress emailAddress);
 	}
 
 
-	public interface ICanAddToAddressOrBuild
+	public interface ICanAddToCcBccOrSubject
 	{
-		ICanAddToAddressOrBuild To(string emailAddress);
-		ICanAddToAddressOrBuild To(string emailAddress, string displayName);
-		ICanAddToAddressOrBuild To(MailAddress emailAddress);
+		ICanAddToCcBccOrSubject To(string emailAddress);
+		ICanAddToCcBccOrSubject To(string emailAddress, string displayName);
+		ICanAddToCcBccOrSubject To(MailAddress emailAddress);
+		ICanAddToCcBccOrSubject CC(string emailAddress);
+		ICanAddToCcBccOrSubject CC(string emailAddress, string displayName);
+		ICanAddToCcBccOrSubject CC(MailAddress emailAddress);
+		ICanAddToCcBccOrSubject BCC(string emailAddress);
+		ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName);
+		ICanAddToCcBccOrSubject BCC(MailAddress emailAddress);
+		ICanBuild Subject(string subject);
+	}
+
+
+	public interface ICanBuild
+	{
 		MailMessage Build();
 	}
 
