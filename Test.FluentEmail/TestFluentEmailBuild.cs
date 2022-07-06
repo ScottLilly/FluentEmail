@@ -15,6 +15,8 @@ namespace Test.FluentEmail
                     .From("from@test.com")
                     .To("qwe@test.com")
                     .To("zxc@test.com")
+                    .CC("lkj@test.com")
+                    .Subject("Hello")
                     .Build();
 
             Assert.NotNull(test);
@@ -30,6 +32,7 @@ namespace Test.FluentEmail
                     .From("from@test.com")
                     .To("qwe@test.com")
                     .To("zxc@test.com")
+                    .Subject("test")
                     .Build();
 
             Assert.NotNull(test);
@@ -45,6 +48,7 @@ namespace Test.FluentEmail
                     .From("from@test.com", "John From")
                     .To("qwe@test.com", "Sue Qwe")
                     .To("zxc@test.com", "Mike Zxc")
+                    .Subject("test")
                     .Build();
 
             Assert.NotNull(test);
@@ -60,6 +64,7 @@ namespace Test.FluentEmail
                     .From(new MailAddress("from@test.com", "John From"))
                     .To(new MailAddress("qwe@test.com", "Sue Qwe"))
                     .To(new MailAddress("zxc@test.com"))
+                    .Subject("test")
                     .Build();
 
             Assert.NotNull(test);
