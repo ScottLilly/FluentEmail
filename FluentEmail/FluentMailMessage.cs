@@ -3,7 +3,7 @@ using System.Net.Mail;
 
 namespace FluentEmail
 {
-	public class FluentMailMessage : IMustAddFromAddress, IMustAddToAddress, ICanAddToCcBccOrSubject, ICanBuild
+	public class FluentMailMessage : IMustAddFromAddress, IMustAddToAddress, ICanAddToCcBccOrSubject, IMustAddBody, ICanAddAttachmentOrBuild
 	{
 		// Instantiating functions
 
@@ -79,7 +79,17 @@ namespace FluentEmail
 			return this;
 		}
 
-		public ICanBuild Subject(string subject)
+		public IMustAddBody Subject(string subject)
+		{
+			return this;
+		}
+
+		public ICanAddAttachmentOrBuild Body(string body)
+		{
+			return this;
+		}
+
+		public ICanAddAttachmentOrBuild AddAttachment(string filename)
 		{
 			return this;
 		}
@@ -141,12 +151,19 @@ namespace FluentEmail
 		ICanAddToCcBccOrSubject BCC(string emailAddress);
 		ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName);
 		ICanAddToCcBccOrSubject BCC(MailAddress emailAddress);
-		ICanBuild Subject(string subject);
+		IMustAddBody Subject(string subject);
 	}
 
 
-	public interface ICanBuild
+	public interface IMustAddBody
 	{
+		ICanAddAttachmentOrBuild Body(string body);
+	}
+
+
+	public interface ICanAddAttachmentOrBuild
+	{
+		ICanAddAttachmentOrBuild AddAttachment(string filename);
 		MailMessage Build();
 	}
 

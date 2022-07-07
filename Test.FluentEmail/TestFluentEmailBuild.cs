@@ -17,6 +17,8 @@ namespace Test.FluentEmail
                     .To("zxc@test.com")
                     .CC("lkj@test.com")
                     .Subject("Hello")
+                    .Body("This is the email body")
+                    .AddAttachment("filename1.txt")
                     .Build();
 
             Assert.NotNull(test);
@@ -33,6 +35,10 @@ namespace Test.FluentEmail
                     .To("qwe@test.com")
                     .To("zxc@test.com")
                     .Subject("test")
+                    .Body("This is the email body")
+                    .AddAttachment("filename1.txt")
+                    .AddAttachment("filename2.txt")
+                    .AddAttachment("filename3.txt")
                     .Build();
 
             Assert.NotNull(test);
@@ -49,6 +55,7 @@ namespace Test.FluentEmail
                     .To("qwe@test.com", "Sue Qwe")
                     .To("zxc@test.com", "Mike Zxc")
                     .Subject("test")
+                    .Body("This is the email body")
                     .Build();
 
             Assert.NotNull(test);
@@ -65,6 +72,7 @@ namespace Test.FluentEmail
                     .To(new MailAddress("qwe@test.com", "Sue Qwe"))
                     .To(new MailAddress("zxc@test.com"))
                     .Subject("test")
+                    .Body("This is the email body")
                     .Build();
 
             Assert.NotNull(test);
