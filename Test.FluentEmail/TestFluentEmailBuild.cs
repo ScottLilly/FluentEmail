@@ -107,6 +107,94 @@ namespace Test.FluentEmail
         }
 
         [Fact]
+        public void Test_Instantiate_StringEmailAddresses_WithDupes()
+        {
+            var test =
+                FluentMailMessage
+                    .CreateMailMessage()
+                    .From("from@test.com")
+                    .To("qwe@test.com")
+                    .To("qwe@test.com")
+                    .To("zxc@test.com")
+                    .Subject("test")
+                    .Body("This is the email body")
+                    .AddAttachment("filename1.txt")
+                    .AddAttachment("filename2.txt")
+                    .AddAttachment("filename3.txt")
+                    .Build();
+
+            Assert.NotNull(test);
+            Assert.IsType<MailMessage>(test);
+            Assert.NotNull(test.From);
+            Assert.Equal("from@test.com", test.From.Address);
+            Assert.Equal(2, test.To.Count);
+        }
+
+        [Fact]
+        public void Test_Instantiate_StringStringEmailAddresses_WithDupes()
+        {
+            var test =
+                FluentMailMessage
+                    .CreateMailMessage()
+                    .From("from@test.com", "John From")
+                    .To("qwe@test.com", "Sue Qwe")
+                    .To("qwe@test.com", "Sue Qwe")
+                    .To("zxc@test.com", "Mike Zxc")
+                    .Subject("test")
+                    .Body("This is the email body")
+                    .Build();
+
+            Assert.NotNull(test);
+            Assert.IsType<MailMessage>(test);
+            Assert.NotNull(test.From);
+            Assert.Equal("from@test.com", test.From.Address);
+            Assert.Equal("John From", test.From.DisplayName);
+            Assert.Equal(2, test.To.Count);
+        }
+
+        [Fact]
+        public void Test_Instantiate_StringStringEncodingEmailAddresses_WithDupes()
+        {
+            var test =
+                FluentMailMessage
+                    .CreateMailMessage()
+                    .From("from@test.com", "John From", Encoding.UTF8)
+                    .To("qwe@test.com", "Sue Qwe")
+                    .To("qwe@test.com", "Sue Qwe")
+                    .To("zxc@test.com", "Mike Zxc")
+                    .Subject("test")
+                    .Body("This is the email body")
+                    .Build();
+
+            Assert.NotNull(test);
+            Assert.IsType<MailMessage>(test);
+            Assert.NotNull(test.From);
+            Assert.Equal("from@test.com", test.From.Address);
+            Assert.Equal("John From", test.From.DisplayName);
+            Assert.Equal(2, test.To.Count);
+            // TODO: Pass in UTF-16 name and encoding, and verify
+        }
+
+        [Fact]
+        public void Test_Instantiate_MailAddressEmailAddresses_WithDupes()
+        {
+            var test =
+                FluentMailMessage
+                    .CreateMailMessage()
+                    .From(new MailAddress("from@test.com", "John From"))
+                    .To(new MailAddress("qwe@test.com", "Sue Qwe"))
+                    .To(new MailAddress("qwe@test.com", "Sue Qwe"))
+                    .To(new MailAddress("zxc@test.com"))
+                    .Subject("test")
+                    .Body("This is the email body")
+                    .Build();
+
+            Assert.NotNull(test);
+            Assert.IsType<MailMessage>(test);
+            Assert.Equal(2, test.To.Count);
+        }
+
+        [Fact]
         public void Test_Priority()
         {
             var test =

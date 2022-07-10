@@ -1,5 +1,7 @@
+using System;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using System.Text;
 
@@ -28,6 +30,9 @@ namespace FluentEmail
 		}
 
 		// Chaining functions
+
+		#region From methods
+
 		public IMustAddToAddress From(string emailAddress)
         {
             _mailMessage.From = new MailAddress(emailAddress);
@@ -56,35 +61,103 @@ namespace FluentEmail
 			return this;
 		}
 
+		#endregion
+
+		#region To methods
+
 		public ICanAddToCcBccOrSubject To(string emailAddress)
-		{
+        {
+            var existingAddress =
+                _mailMessage.To
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+            if (existingAddress == null)
+            {
+				_mailMessage.To.Add(new MailAddress(emailAddress));
+            }
+
 			return this;
 		}
 
-		public ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddress)
+		public ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddresses)
 		{
+            foreach (string emailAddress in emailAddresses)
+            {
+                var existingAddress =
+                    _mailMessage.To
+                        .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+                if (existingAddress == null)
+                {
+                    _mailMessage.To.Add(new MailAddress(emailAddress));
+                }
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject To(string emailAddress, string displayName)
 		{
+            var existingAddress =
+                _mailMessage.To
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+			if (existingAddress == null)
+            {
+                _mailMessage.To.Add(new MailAddress(emailAddress));
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject To(string emailAddress, string displayName, Encoding encodingType)
 		{
+            var existingAddress =
+                _mailMessage.To
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+            if (existingAddress == null)
+            {
+                _mailMessage.To.Add(new MailAddress(emailAddress));
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject To(MailAddress emailAddress)
 		{
+            var existingAddress =
+                _mailMessage.To
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
+
+            if (existingAddress == null)
+            {
+                _mailMessage.To.Add(new MailAddress(emailAddress.Address));
+            }
+
 			return this;
 		}
 
-		public ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddress)
+		public ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddresses)
 		{
+            foreach (var emailAddress in emailAddresses)
+            {
+                var existingAddress =
+                    _mailMessage.To
+                        .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
+
+                if (existingAddress == null)
+                {
+                    _mailMessage.To.Add(new MailAddress(emailAddress.Address));
+                }
+            }
+
 			return this;
 		}
+
+		#endregion
+
+		#region CC methods
 
 		public ICanAddToCcBccOrSubject CC(string emailAddress)
 		{
@@ -116,6 +189,10 @@ namespace FluentEmail
 			return this;
 		}
 
+		#endregion
+
+		#region BCC methods
+
 		public ICanAddToCcBccOrSubject BCC(string emailAddress)
 		{
 			return this;
@@ -146,6 +223,10 @@ namespace FluentEmail
 			return this;
 		}
 
+		#endregion
+
+		#region Subject methods
+
 		public IMustAddBody Subject(string subject)
 		{
 			return this;
@@ -155,6 +236,10 @@ namespace FluentEmail
 		{
 			return this;
 		}
+
+		#endregion
+
+		#region Body methods
 
 		public ICanAddAttachmentOrBuild Body(string body)
 		{
@@ -166,10 +251,16 @@ namespace FluentEmail
 			return this;
 		}
 
+		#endregion
+
+		#region Attachments
+
 		public ICanAddAttachmentOrBuild AddAttachment(string filename)
 		{
 			return this;
 		}
+
+		#endregion
 
 		// Executing functions
 		public MailMessage Build()
@@ -209,21 +300,21 @@ namespace FluentEmail
 	public interface IMustAddToAddress
 	{
 		ICanAddToCcBccOrSubject To(string emailAddress);
-		ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddress);
+		ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddresses);
 		ICanAddToCcBccOrSubject To(string emailAddress, string displayName);
 		ICanAddToCcBccOrSubject To(string emailAddress, string displayName, Encoding encodingType);
 		ICanAddToCcBccOrSubject To(MailAddress emailAddress);
-		ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddress);
+		ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddresses);
 	}
 
 	public interface ICanAddToCcBccOrSubject
 	{
 		ICanAddToCcBccOrSubject To(string emailAddress);
-		ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddress);
+		ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddresses);
 		ICanAddToCcBccOrSubject To(string emailAddress, string displayName);
 		ICanAddToCcBccOrSubject To(string emailAddress, string displayName, Encoding encodingType);
 		ICanAddToCcBccOrSubject To(MailAddress emailAddress);
-		ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddress);
+		ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddresses);
 		ICanAddToCcBccOrSubject CC(string emailAddress);
 		ICanAddToCcBccOrSubject CC(IEnumerable<string> emailAddress);
 		ICanAddToCcBccOrSubject CC(string emailAddress, string displayName);
