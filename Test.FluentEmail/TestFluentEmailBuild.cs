@@ -162,6 +162,7 @@ namespace Test.FluentEmail
             Assert.Equal(2, test.To.Count);
             Assert.Equal(2, test.CC.Count);
             Assert.Equal(2, test.Bcc.Count);
+            Assert.Equal("test", test.Subject);
         }
 
         [Fact]
@@ -174,7 +175,7 @@ namespace Test.FluentEmail
                     .To("qwe@test.com", "Sue Qwe")
                     .To("qwe@test.com", "Sue Qwe")
                     .To("zxc@test.com", "Mike Zxc")
-                    .Subject("test")
+                    .Subject("test", Encoding.UTF8)
                     .Body("This is the email body")
                     .Build();
 
@@ -184,6 +185,8 @@ namespace Test.FluentEmail
             Assert.Equal("from@test.com", test.From.Address);
             Assert.Equal("John From", test.From.DisplayName);
             Assert.Equal(2, test.To.Count);
+            Assert.Equal("test", test.Subject);
+            Assert.Equal(Encoding.UTF8, test.SubjectEncoding);
             // TODO: Pass in UTF-16 name and encoding, and verify
         }
 

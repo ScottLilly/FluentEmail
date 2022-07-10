@@ -349,11 +349,16 @@ namespace FluentEmail
 
 		public IMustAddBody Subject(string subject)
 		{
+			_mailMessage.Subject = subject;
+
 			return this;
 		}
 
 		public IMustAddBody Subject(string subject, Encoding encodingType)
-		{
+        {
+            _mailMessage.Subject = subject;
+            _mailMessage.SubjectEncoding = encodingType;
+
 			return this;
 		}
 
