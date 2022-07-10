@@ -104,7 +104,7 @@ namespace FluentEmail
 
 			if (existingAddress == null)
             {
-                _mailMessage.To.Add(new MailAddress(emailAddress));
+                _mailMessage.To.Add(new MailAddress(emailAddress, displayName));
             }
 
 			return this;
@@ -118,7 +118,7 @@ namespace FluentEmail
 
             if (existingAddress == null)
             {
-                _mailMessage.To.Add(new MailAddress(emailAddress));
+                _mailMessage.To.Add(new MailAddress(emailAddress, displayName, encodingType));
             }
 
 			return this;
@@ -132,7 +132,7 @@ namespace FluentEmail
 
             if (existingAddress == null)
             {
-                _mailMessage.To.Add(new MailAddress(emailAddress.Address));
+                _mailMessage.To.Add(emailAddress);
             }
 
 			return this;
@@ -148,7 +148,7 @@ namespace FluentEmail
 
                 if (existingAddress == null)
                 {
-                    _mailMessage.To.Add(new MailAddress(emailAddress.Address));
+                    _mailMessage.To.Add(emailAddress);
                 }
             }
 
@@ -161,31 +161,91 @@ namespace FluentEmail
 
 		public ICanAddToCcBccOrSubject CC(string emailAddress)
 		{
+            var existingAddress =
+                _mailMessage.CC
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+			
+            if (existingAddress == null)
+            {
+                _mailMessage.CC.Add(new MailAddress(emailAddress));
+            }
+
 			return this;
 		}
 
-		public ICanAddToCcBccOrSubject CC(IEnumerable<string> emailAddress)
+		public ICanAddToCcBccOrSubject CC(IEnumerable<string> emailAddresses)
 		{
+            foreach (string emailAddress in emailAddresses)
+            {
+                var existingAddress =
+                    _mailMessage.CC
+                        .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+                if (existingAddress == null)
+                {
+                    _mailMessage.CC.Add(new MailAddress(emailAddress));
+                }
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject CC(string emailAddress, string displayName)
 		{
+            var existingAddress =
+                _mailMessage.CC
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+            if (existingAddress == null)
+            {
+                _mailMessage.CC.Add(new MailAddress(emailAddress, displayName));
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject CC(string emailAddress, string displayName, Encoding encodingType)
 		{
+            var existingAddress =
+                _mailMessage.CC
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+            if (existingAddress == null)
+            {
+                _mailMessage.CC.Add(new MailAddress(emailAddress, displayName, encodingType));
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject CC(MailAddress emailAddress)
 		{
+            var existingAddress =
+                _mailMessage.CC
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
+
+            if (existingAddress == null)
+            {
+                _mailMessage.CC.Add(emailAddress);
+            }
+
 			return this;
 		}
 
-		public ICanAddToCcBccOrSubject CC(IEnumerable<MailAddress> emailAddress)
+		public ICanAddToCcBccOrSubject CC(IEnumerable<MailAddress> emailAddresses)
 		{
+            foreach (MailAddress emailAddress in emailAddresses)
+            {
+                var existingAddress =
+                    _mailMessage.CC
+                        .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
+
+                if (existingAddress == null)
+                {
+                    _mailMessage.CC.Add(emailAddress);
+                }
+            }
+
 			return this;
 		}
 
@@ -198,7 +258,7 @@ namespace FluentEmail
 			return this;
 		}
 
-		public ICanAddToCcBccOrSubject BCC(IEnumerable<string> emailAddress)
+		public ICanAddToCcBccOrSubject BCC(IEnumerable<string> emailAddresses)
 		{
 			return this;
 		}
@@ -218,7 +278,7 @@ namespace FluentEmail
 			return this;
 		}
 
-		public ICanAddToCcBccOrSubject BCC(IEnumerable<MailAddress> emailAddress)
+		public ICanAddToCcBccOrSubject BCC(IEnumerable<MailAddress> emailAddresses)
 		{
 			return this;
 		}
@@ -316,17 +376,17 @@ namespace FluentEmail
 		ICanAddToCcBccOrSubject To(MailAddress emailAddress);
 		ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddresses);
 		ICanAddToCcBccOrSubject CC(string emailAddress);
-		ICanAddToCcBccOrSubject CC(IEnumerable<string> emailAddress);
+		ICanAddToCcBccOrSubject CC(IEnumerable<string> emailAddresses);
 		ICanAddToCcBccOrSubject CC(string emailAddress, string displayName);
 		ICanAddToCcBccOrSubject CC(string emailAddress, string displayName, Encoding encodingType);
 		ICanAddToCcBccOrSubject CC(MailAddress emailAddress);
-		ICanAddToCcBccOrSubject CC(IEnumerable<MailAddress> emailAddress);
+		ICanAddToCcBccOrSubject CC(IEnumerable<MailAddress> emailAddresses);
 		ICanAddToCcBccOrSubject BCC(string emailAddress);
-		ICanAddToCcBccOrSubject BCC(IEnumerable<string> emailAddress);
+		ICanAddToCcBccOrSubject BCC(IEnumerable<string> emailAddresses);
 		ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName);
 		ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName, Encoding encodingType);
 		ICanAddToCcBccOrSubject BCC(MailAddress emailAddress);
-		ICanAddToCcBccOrSubject BCC(IEnumerable<MailAddress> emailAddress);
+		ICanAddToCcBccOrSubject BCC(IEnumerable<MailAddress> emailAddresses);
 		IMustAddBody Subject(string subject);
 		IMustAddBody Subject(string subject, Encoding encodingType);
 	}

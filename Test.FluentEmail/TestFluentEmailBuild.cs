@@ -116,6 +116,9 @@ namespace Test.FluentEmail
                     .To("qwe@test.com")
                     .To("qwe@test.com")
                     .To("zxc@test.com")
+                    .CC("lkj@test.com")
+                    .CC("jhg@test.com")
+                    .CC("jhg@test.com")
                     .Subject("test")
                     .Body("This is the email body")
                     .AddAttachment("filename1.txt")
@@ -128,6 +131,7 @@ namespace Test.FluentEmail
             Assert.NotNull(test.From);
             Assert.Equal("from@test.com", test.From.Address);
             Assert.Equal(2, test.To.Count);
+            Assert.Equal(2, test.CC.Count);
         }
 
         [Fact]
@@ -140,6 +144,9 @@ namespace Test.FluentEmail
                     .To("qwe@test.com", "Sue Qwe")
                     .To("qwe@test.com", "Sue Qwe")
                     .To("zxc@test.com", "Mike Zxc")
+                    .CC("lkj@test.com", "asd name")
+                    .CC("jhg@test.com", "zxc name")
+                    .CC("jhg@test.com", "Test Name")
                     .Subject("test")
                     .Body("This is the email body")
                     .Build();
@@ -184,7 +191,10 @@ namespace Test.FluentEmail
                     .From(new MailAddress("from@test.com", "John From"))
                     .To(new MailAddress("qwe@test.com", "Sue Qwe"))
                     .To(new MailAddress("qwe@test.com", "Sue Qwe"))
-                    .To(new MailAddress("zxc@test.com"))
+                    .To(new MailAddress("zxc@test.com", "asd name"))
+                    .CC(new MailAddress("qwe123@test.com", "Sue123 Qwe"))
+                    .CC(new MailAddress("qwe123@test.com", "Sue123 Qwe"))
+                    .CC(new MailAddress("zxc123@test.com", "asd123 name"))
                     .Subject("test")
                     .Body("This is the email body")
                     .Build();
