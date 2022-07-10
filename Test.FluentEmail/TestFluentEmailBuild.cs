@@ -147,6 +147,9 @@ namespace Test.FluentEmail
                     .CC("lkj@test.com", "asd name")
                     .CC("jhg@test.com", "zxc name")
                     .CC("jhg@test.com", "Test Name")
+                    .BCC("lkj456@test.com", "asd456 name")
+                    .BCC("jhg456@test.com", "zxc456 name")
+                    .BCC("jhg456@test.com", "Test456 Name")
                     .Subject("test")
                     .Body("This is the email body")
                     .Build();
@@ -157,6 +160,8 @@ namespace Test.FluentEmail
             Assert.Equal("from@test.com", test.From.Address);
             Assert.Equal("John From", test.From.DisplayName);
             Assert.Equal(2, test.To.Count);
+            Assert.Equal(2, test.CC.Count);
+            Assert.Equal(2, test.Bcc.Count);
         }
 
         [Fact]

@@ -255,31 +255,91 @@ namespace FluentEmail
 
 		public ICanAddToCcBccOrSubject BCC(string emailAddress)
 		{
+            var existingAddress =
+                _mailMessage.Bcc
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+            if (existingAddress == null)
+            {
+                _mailMessage.Bcc.Add(new MailAddress(emailAddress));
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject BCC(IEnumerable<string> emailAddresses)
 		{
+            foreach (var emailAddress in emailAddresses)
+            {
+                var existingAddress =
+                    _mailMessage.Bcc
+                        .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+                if (existingAddress == null)
+                {
+                    _mailMessage.Bcc.Add(new MailAddress(emailAddress));
+                }
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName)
 		{
+            var existingAddress =
+                _mailMessage.Bcc
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+            if (existingAddress == null)
+            {
+                _mailMessage.Bcc.Add(new MailAddress(emailAddress, displayName));
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName, Encoding encodingType)
 		{
+            var existingAddress =
+                _mailMessage.Bcc
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+
+            if (existingAddress == null)
+            {
+                _mailMessage.Bcc.Add(new MailAddress(emailAddress, displayName, encodingType));
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject BCC(MailAddress emailAddress)
 		{
+            var existingAddress =
+                _mailMessage.Bcc
+                    .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
+
+            if (existingAddress == null)
+            {
+                _mailMessage.Bcc.Add(emailAddress);
+            }
+
 			return this;
 		}
 
 		public ICanAddToCcBccOrSubject BCC(IEnumerable<MailAddress> emailAddresses)
 		{
+            foreach (var emailAddress in emailAddresses)
+            {
+                var existingAddress =
+                    _mailMessage.Bcc
+                        .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
+
+                if (existingAddress == null)
+                {
+                    _mailMessage.Bcc.Add(emailAddress);
+                }
+            }
+
 			return this;
 		}
 
