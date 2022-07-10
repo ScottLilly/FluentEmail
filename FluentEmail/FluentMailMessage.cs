@@ -5,42 +5,54 @@ using System.Text;
 
 namespace FluentEmail
 {
-	public class FluentMailMessage : IMustAddFromAddress, IMustAddToAddress, ICanAddToCcBccOrSubject, IMustAddBody, ICanAddAttachmentOrBuild
-	{
+	public class FluentMailMessage : IMustAddFromAddress, IMustAddToAddress, 
+        ICanAddToCcBccOrSubject, IMustAddBody, ICanAddAttachmentOrBuild
+    {
+        private readonly MailMessage _mailMessage = new MailMessage();
+
 		// Private constructor
-		private FluentMailMessage()
-		{
-		}
+		private FluentMailMessage(MailPriority priority = MailPriority.Normal)
+        {
+			_mailMessage.Priority = priority;
+        }
 
 		// Instantiating functions
 		public static IMustAddFromAddress CreateMailMessage(MailPriority priority = MailPriority.Normal)
 		{
-			return new FluentMailMessage();
+			return new FluentMailMessage(priority);
 		}
 
 		public static IMustAddFromAddress CreateHtmlMailMessage(MailPriority priority = MailPriority.Normal)
 		{
-			return new FluentMailMessage();
+			return new FluentMailMessage(priority);
 		}
 
 		// Chaining functions
 		public IMustAddToAddress From(string emailAddress)
-		{
+        {
+            _mailMessage.From = new MailAddress(emailAddress);
+
 			return this;
 		}
 
 		public IMustAddToAddress From(string emailAddress, string displayName)
 		{
+            _mailMessage.From = new MailAddress(emailAddress, displayName);
+
 			return this;
 		}
 
 		public IMustAddToAddress From(string emailAddress, string displayName, Encoding encodingType)
 		{
+            _mailMessage.From = new MailAddress(emailAddress, displayName, encodingType);
+
 			return this;
 		}
 
 		public IMustAddToAddress From(MailAddress emailAddress)
 		{
+            _mailMessage.From = emailAddress;
+
 			return this;
 		}
 
@@ -162,7 +174,7 @@ namespace FluentEmail
 		// Executing functions
 		public MailMessage Build()
         {
-            return new MailMessage();
+            return _mailMessage;
         }
 
 		// Hide default functions from appearing with IntelliSense
