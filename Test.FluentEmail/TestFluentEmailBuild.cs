@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Mail;
 using System.Text;
 using FluentEmail;
@@ -179,9 +180,9 @@ namespace Test.FluentEmail
                     .To("zxc@test.com", "Mike Zxc")
                     .Subject("test", Encoding.UTF8)
                     .Body("This is the email body", Encoding.UTF8)
-                    .AddAttachment(@".\TestFiles\test.txt")
-                    .AddAttachment(@".\TestFiles\test2.txt")
-                    .AddAttachment(@".\TestFiles\test2.txt")
+                    .AddAttachment(Path.Combine(".", "TestFiles", "test.txt"))
+                    .AddAttachment(Path.Combine(".", "TestFiles", "test2.txt"))
+                    .AddAttachment(Path.Combine(".", "TestFiles", "test2.txt"))
                     .Build();
 
             Assert.NotNull(test);
