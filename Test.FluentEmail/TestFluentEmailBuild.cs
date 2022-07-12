@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Mail;
 using System.Text;
 using FluentEmail;
@@ -20,7 +21,7 @@ namespace Test.FluentEmail
                     .CC("lkj@test.com")
                     .Subject("Hello")
                     .Body("This is the email body")
-                    .AddAttachment(@".\TestFiles\filename1.txt")
+                    .AddAttachment(Path.Combine(".", "TestFiles", "filename1.txt"))
                     .Build();
 
             Assert.NotNull(test);
@@ -38,9 +39,9 @@ namespace Test.FluentEmail
                     .To("zxc@test.com")
                     .Subject("test")
                     .Body("This is the email body")
-                    .AddAttachment(@".\TestFiles\filename1.txt")
-                    .AddAttachment(@".\TestFiles\filename2.txt")
-                    .AddAttachment(@".\TestFiles\filename3.txt")
+                    .AddAttachment(Path.Combine(".", "TestFiles", "filename1.txt"))
+                    .AddAttachment(Path.Combine(".", "TestFiles", "filename2.txt"))
+                    .AddAttachment(Path.Combine(".", "TestFiles", "filename3.txt"))
                     .Build();
 
             Assert.NotNull(test);
@@ -122,9 +123,9 @@ namespace Test.FluentEmail
                     .CC("jhg@test.com")
                     .Subject("test")
                     .Body("This is the email body")
-                    .AddAttachment(@".\TestFiles\filename1.txt")
-                    .AddAttachment(@".\TestFiles\filename2.txt")
-                    .AddAttachment(@".\TestFiles\filename3.txt")
+                    .AddAttachment(Path.Combine(".", "TestFiles", "filename1.txt"))
+                    .AddAttachment(Path.Combine(".", "TestFiles", "filename2.txt"))
+                    .AddAttachment(Path.Combine(".", "TestFiles", "filename3.txt"))
                     .Build();
 
             Assert.NotNull(test);
@@ -179,9 +180,9 @@ namespace Test.FluentEmail
                     .To("zxc@test.com", "Mike Zxc")
                     .Subject("test", Encoding.UTF8)
                     .Body("This is the email body", Encoding.UTF8)
-                    .AddAttachment(@".\TestFiles\test.txt")
-                    .AddAttachment(@".\TestFiles\test2.txt")
-                    .AddAttachment(@".\TestFiles\test2.txt")
+                    .AddAttachment(Path.Combine(".", "TestFiles", "test.txt"))
+                    .AddAttachment(Path.Combine(".", "TestFiles", "test2.txt"))
+                    .AddAttachment(Path.Combine(".", "TestFiles", "test2.txt"))
                     .Build();
 
             Assert.NotNull(test);
@@ -215,9 +216,9 @@ namespace Test.FluentEmail
                     .Body("This is the email body")
                     .AddAttachments( new List<string>
                     {
-                        @".\TestFiles\test.txt", 
-                        @".\TestFiles\test2.txt",
-                        @".\TestFiles\test2.txt"
+                        Path.Combine(".", "TestFiles", "test.txt"),
+                        Path.Combine(".", "TestFiles", "test2.txt"),
+                        Path.Combine(".", "TestFiles", "test2.txt")
                     })
                     .Build();
 
