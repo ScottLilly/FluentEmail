@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
 using FluentEmail;
@@ -19,7 +20,7 @@ namespace Test.FluentEmail
                     .CC("lkj@test.com")
                     .Subject("Hello")
                     .Body("This is the email body")
-                    .AddAttachment("filename1.txt")
+                    .AddAttachment(@".\TestFiles\filename1.txt")
                     .Build();
 
             Assert.NotNull(test);
@@ -37,9 +38,9 @@ namespace Test.FluentEmail
                     .To("zxc@test.com")
                     .Subject("test")
                     .Body("This is the email body")
-                    .AddAttachment("filename1.txt")
-                    .AddAttachment("filename2.txt")
-                    .AddAttachment("filename3.txt")
+                    .AddAttachment(@".\TestFiles\filename1.txt")
+                    .AddAttachment(@".\TestFiles\filename2.txt")
+                    .AddAttachment(@".\TestFiles\filename3.txt")
                     .Build();
 
             Assert.NotNull(test);
@@ -121,9 +122,9 @@ namespace Test.FluentEmail
                     .CC("jhg@test.com")
                     .Subject("test")
                     .Body("This is the email body")
-                    .AddAttachment("filename1.txt")
-                    .AddAttachment("filename2.txt")
-                    .AddAttachment("filename3.txt")
+                    .AddAttachment(@".\TestFiles\filename1.txt")
+                    .AddAttachment(@".\TestFiles\filename2.txt")
+                    .AddAttachment(@".\TestFiles\filename3.txt")
                     .Build();
 
             Assert.NotNull(test);
@@ -163,6 +164,7 @@ namespace Test.FluentEmail
             Assert.Equal(2, test.CC.Count);
             Assert.Equal(2, test.Bcc.Count);
             Assert.Equal("test", test.Subject);
+            Assert.Equal("This is the email body", test.Body);
         }
 
         [Fact]
@@ -176,7 +178,10 @@ namespace Test.FluentEmail
                     .To("qwe@test.com", "Sue Qwe")
                     .To("zxc@test.com", "Mike Zxc")
                     .Subject("test", Encoding.UTF8)
-                    .Body("This is the email body")
+                    .Body("This is the email body", Encoding.UTF8)
+                    .AddAttachment(@".\TestFiles\test.txt")
+                    .AddAttachment(@".\TestFiles\test2.txt")
+                    .AddAttachment(@".\TestFiles\test2.txt")
                     .Build();
 
             Assert.NotNull(test);
@@ -187,6 +192,9 @@ namespace Test.FluentEmail
             Assert.Equal(2, test.To.Count);
             Assert.Equal("test", test.Subject);
             Assert.Equal(Encoding.UTF8, test.SubjectEncoding);
+            Assert.Equal("This is the email body", test.Body);
+            Assert.Equal(Encoding.UTF8, test.BodyEncoding);
+            Assert.Equal(2, test.Attachments.Count);
             // TODO: Pass in UTF-16 name and encoding, and verify
         }
 
@@ -205,11 +213,18 @@ namespace Test.FluentEmail
                     .CC(new MailAddress("zxc123@test.com", "asd123 name"))
                     .Subject("test")
                     .Body("This is the email body")
+                    .AddAttachments( new List<string>
+                    {
+                        @".\TestFiles\test.txt", 
+                        @".\TestFiles\test2.txt",
+                        @".\TestFiles\test2.txt"
+                    })
                     .Build();
 
             Assert.NotNull(test);
             Assert.IsType<MailMessage>(test);
             Assert.Equal(2, test.To.Count);
+            Assert.Equal(2, test.Attachments.Count);
         }
 
         [Fact]

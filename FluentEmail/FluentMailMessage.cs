@@ -11,6 +11,7 @@ namespace FluentEmail
         ICanAddToCcBccOrSubject, IMustAddBody, ICanAddAttachmentOrBuild
     {
         private readonly MailMessage _mailMessage = new MailMessage();
+		private HashSet<string> _attachmentFileNames = new HashSet<string>();
 
 		// Private constructor
 		private FluentMailMessage(MailPriority priority = MailPriority.Normal)
@@ -368,11 +369,16 @@ namespace FluentEmail
 
 		public ICanAddAttachmentOrBuild Body(string body)
 		{
+			_mailMessage.Body = body;
+
 			return this;
 		}
 
 		public ICanAddAttachmentOrBuild Body(string body, Encoding encodingType)
 		{
+            _mailMessage.Body = body;
+			_mailMessage.BodyEncoding = encodingType;
+
 			return this;
 		}
 
@@ -382,8 +388,20 @@ namespace FluentEmail
 
 		public ICanAddAttachmentOrBuild AddAttachment(string filename)
 		{
+			AddAttachmentIfNew(filename);
+
 			return this;
 		}
+
+        public ICanAddAttachmentOrBuild AddAttachments(IEnumerable<string> filenames)
+        {
+            foreach (var filename in filenames)
+            {
+				AddAttachmentIfNew(filename);
+            }
+
+			return this;
+        }
 
 		#endregion
 
@@ -392,6 +410,14 @@ namespace FluentEmail
         {
             return _mailMessage;
         }
+
+		private void AddAttachmentIfNew(string filename)
+		{
+			if (_attachmentFileNames.Add(filename.ToLower()))
+			{
+				_mailMessage.Attachments.Add(new Attachment(filename));
+			}
+		}
 
 		// Hide default functions from appearing with IntelliSense
 		[EditorBrowsable(EditorBrowsableState.Never)]
@@ -465,6 +491,7 @@ namespace FluentEmail
 	public interface ICanAddAttachmentOrBuild
 	{
 		ICanAddAttachmentOrBuild AddAttachment(string filename);
+        ICanAddAttachmentOrBuild AddAttachments(IEnumerable<string> filenames);
 		MailMessage Build();
 	}
 
