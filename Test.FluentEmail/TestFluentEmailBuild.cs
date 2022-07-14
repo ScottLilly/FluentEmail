@@ -11,25 +11,6 @@ namespace Test.FluentEmail
     public class TestFluentEmailBuilder
     {
         [Fact]
-        public void Test_Instantiate_HtmlMailMessage()
-        {
-            var mailMessage =
-                FluentMailMessage
-                    .CreateHtmlMailMessage()
-                    .From("from@test.com")
-                    .To("qwe@test.com")
-                    .To("zxc@test.com")
-                    .CC("lkj@test.com")
-                    .Subject("Hello")
-                    .Body("This is the email body")
-                    .AddAttachment(Path.Combine(".", "TestFiles", "filename1.txt"))
-                    .Build();
-
-            Assert.NotNull(mailMessage);
-            Assert.IsType<MailMessage>(mailMessage);
-        }
-
-        [Fact]
         public void Test_Instantiate_StringEmailAddresses()
         {
             var mailMessage = 
