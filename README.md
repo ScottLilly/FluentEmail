@@ -19,3 +19,7 @@ MailMessage mailMessage =
         .AddAttachment(@"D:\Images\Logo.png", "image/png")
         .Build();
 ```
+
+Please report issues or feature requests at: https://github.com/ScottLilly/FluentEmail/issues
+
+The project plan is here: https://github.com/ScottLilly/FluentEmail/projects/1
