@@ -490,6 +490,7 @@ namespace FluentEmail
 	}
 
 	// Interfaces
+
 	public interface IMustAddFromAddress
 	{
 		IMustAddToAddress From(string emailAddress);
