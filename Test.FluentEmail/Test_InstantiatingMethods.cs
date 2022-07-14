@@ -39,5 +39,65 @@ namespace Test.FluentEmail
             Assert.IsType<MailMessage>(mailMessage);
             Assert.True(mailMessage.IsBodyHtml);
         }
+
+        [Fact]
+        public void Test_PriorityDefault()
+        {
+            var mailMessage =
+                FluentMailMessage
+                    .CreateMailMessage()
+                    .From("from@test.com")
+                    .To("qwe@test.com")
+                    .Subject("Hello")
+                    .Body("This is the email body")
+                    .Build();
+
+            Assert.Equal(MailPriority.Normal, mailMessage.Priority);
+        }
+
+        [Fact]
+        public void Test_PriorityLow()
+        {
+            var mailMessage =
+                FluentMailMessage
+                    .CreateMailMessage(MailPriority.Low)
+                    .From("from@test.com")
+                    .To("qwe@test.com")
+                    .Subject("Hello")
+                    .Body("This is the email body")
+                    .Build();
+
+            Assert.Equal(MailPriority.Low, mailMessage.Priority);
+        }
+
+        [Fact]
+        public void Test_PriorityNormal()
+        {
+            var mailMessage =
+                FluentMailMessage
+                    .CreateMailMessage(MailPriority.Normal)
+                    .From("from@test.com")
+                    .To("qwe@test.com")
+                    .Subject("Hello")
+                    .Body("This is the email body")
+                    .Build();
+
+            Assert.Equal(MailPriority.Normal, mailMessage.Priority);
+        }
+
+        [Fact]
+        public void Test_PriorityHigh()
+        {
+            var mailMessage =
+                FluentMailMessage
+                    .CreateMailMessage(MailPriority.High)
+                    .From("from@test.com")
+                    .To("qwe@test.com")
+                    .Subject("Hello")
+                    .Body("This is the email body")
+                    .Build();
+
+            Assert.Equal(MailPriority.High, mailMessage.Priority);
+        }
     }
 }

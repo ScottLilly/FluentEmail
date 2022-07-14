@@ -19,8 +19,6 @@ namespace Test.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.NotNull(mailMessage);
-            Assert.IsType<MailMessage>(mailMessage);
             Assert.NotNull(mailMessage.From);
             Assert.Equal("from@test.com", mailMessage.From.Address);
         }
@@ -37,8 +35,6 @@ namespace Test.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.NotNull(mailMessage);
-            Assert.IsType<MailMessage>(mailMessage);
             Assert.NotNull(mailMessage.From);
             Assert.Equal("from@test.com", mailMessage.From.Address);
             Assert.Equal("John From", mailMessage.From.DisplayName);
@@ -56,8 +52,6 @@ namespace Test.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.NotNull(mailMessage);
-            Assert.IsType<MailMessage>(mailMessage);
             Assert.NotNull(mailMessage.From);
             Assert.Equal("from@test.com", mailMessage.From.Address);
             Assert.Equal("John From", mailMessage.From.DisplayName);
@@ -76,8 +70,6 @@ namespace Test.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.NotNull(mailMessage);
-            Assert.IsType<MailMessage>(mailMessage);
             Assert.NotNull(mailMessage.From);
             Assert.Equal("from@test.com", mailMessage.From.Address);
             Assert.Equal("John From", mailMessage.From.DisplayName);
