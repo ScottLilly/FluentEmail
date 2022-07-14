@@ -1,9 +1,9 @@
-using System;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using System.IO;
+using System.Net.Mime;
 
 namespace FluentEmail
 {
@@ -11,23 +11,25 @@ namespace FluentEmail
         ICanAddToCcBccOrSubject, IMustAddBody, ICanAddAttachmentOrBuild
     {
         private readonly MailMessage _mailMessage = new MailMessage();
-		private HashSet<string> _attachmentFileNames = new HashSet<string>();
+		private readonly HashSet<string> _attachmentFileNames = new HashSet<string>();
 
 		// Private constructor
-		private FluentMailMessage(MailPriority priority = MailPriority.Normal)
+		private FluentMailMessage(bool isHtml, MailPriority priority = MailPriority.Normal)
         {
+			_mailMessage.IsBodyHtml = isHtml;
 			_mailMessage.Priority = priority;
         }
 
 		// Instantiating functions
+
 		public static IMustAddFromAddress CreateMailMessage(MailPriority priority = MailPriority.Normal)
 		{
-			return new FluentMailMessage(priority);
+			return new FluentMailMessage(false, priority);
 		}
 
 		public static IMustAddFromAddress CreateHtmlMailMessage(MailPriority priority = MailPriority.Normal)
 		{
-			return new FluentMailMessage(priority);
+			return new FluentMailMessage(true, priority);
 		}
 
 		// Chaining functions
@@ -393,7 +395,47 @@ namespace FluentEmail
 			return this;
 		}
 
-        public ICanAddAttachmentOrBuild AddAttachments(IEnumerable<string> filenames)
+		public ICanAddAttachmentOrBuild AddAttachment(string filename, 
+			string mimeType)
+		{
+			AddAttachmentIfNew(filename, mimeType);
+
+			return this;
+		}
+
+		public ICanAddAttachmentOrBuild AddAttachment(string filename, 
+			ContentType contentType)
+		{
+			AddAttachmentIfNew(filename, contentType);
+
+			return this;
+		}
+
+		public ICanAddAttachmentOrBuild AddAttachment(Stream stream,
+			string name)
+		{
+			_mailMessage.Attachments.Add(new Attachment(stream, name));
+
+			return this;
+		}
+
+		public ICanAddAttachmentOrBuild AddAttachment(Stream stream,
+			string name, string mimeType)
+		{
+			_mailMessage.Attachments.Add(new Attachment(stream, name, mimeType));
+
+			return this;
+		}
+
+		public ICanAddAttachmentOrBuild AddAttachment(Stream stream,
+			ContentType contentType)
+		{
+			_mailMessage.Attachments.Add(new Attachment(stream, contentType));
+
+			return this;
+		}
+
+		public ICanAddAttachmentOrBuild AddAttachments(IEnumerable<string> filenames)
         {
             foreach (var filename in filenames)
             {
@@ -405,11 +447,20 @@ namespace FluentEmail
 
 		#endregion
 
-		// Executing functions
+		// Executing function(s)
+
+		#region Build
+
 		public MailMessage Build()
         {
             return _mailMessage;
         }
+
+		#endregion
+
+		// Supporting function(s)
+
+		#region Private method(s)
 
 		private void AddAttachmentIfNew(string filename)
 		{
@@ -419,24 +470,23 @@ namespace FluentEmail
 			}
 		}
 
-		// Hide default functions from appearing with IntelliSense
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override bool Equals(object obj)
+		private void AddAttachmentIfNew(string filename, string mimeType)
 		{
-			return base.Equals(obj);
+			if (_attachmentFileNames.Add(filename.ToLower()))
+			{
+				_mailMessage.Attachments.Add(new Attachment(filename, mimeType));
+			}
 		}
 
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override int GetHashCode()
+		private void AddAttachmentIfNew(string filename, ContentType contentType)
 		{
-			return base.GetHashCode();
+			if (_attachmentFileNames.Add(filename.ToLower()))
+			{
+				_mailMessage.Attachments.Add(new Attachment(filename, contentType));
+			}
 		}
 
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override string ToString()
-		{
-			return base.ToString();
-		}
+		#endregion
 	}
 
 	// Interfaces
@@ -491,7 +541,12 @@ namespace FluentEmail
 	public interface ICanAddAttachmentOrBuild
 	{
 		ICanAddAttachmentOrBuild AddAttachment(string filename);
-        ICanAddAttachmentOrBuild AddAttachments(IEnumerable<string> filenames);
+		ICanAddAttachmentOrBuild AddAttachment(string filename, string mimeType);
+		ICanAddAttachmentOrBuild AddAttachment(string filename, ContentType contentType);
+		ICanAddAttachmentOrBuild AddAttachment(Stream stream, string name);
+		ICanAddAttachmentOrBuild AddAttachment(Stream stream, string name, string mimeType);
+		ICanAddAttachmentOrBuild AddAttachment(Stream stream, ContentType contentType);
+		ICanAddAttachmentOrBuild AddAttachments(IEnumerable<string> filenames);
 		MailMessage Build();
 	}
 

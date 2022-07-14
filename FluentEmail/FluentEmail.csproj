@@ -2,6 +2,39 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Company>Scott Lilly</Company>
+    <Description>A fluent interface to simplify and enforce correct MailMessage instantiation.</Description>
+    <Copyright>2022</Copyright>
+    <PackageProjectUrl>https://scottlilly.com/my-nuget-packages/fluentemail/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ScottLilly/FluentEmail</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Authors>Scott Lilly</Authors>
+    <PackageTags>email, mailmessage, fluent interface</PackageTags>
+    <PackageIcon>envelope.png</PackageIcon>
+    <SignAssembly>True</SignAssembly>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId>ScottLilly.$(AssemblyName)</PackageId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="LICENSE.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="LICENSE.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\envelope.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
