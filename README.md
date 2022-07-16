@@ -1,5 +1,7 @@
 FluentEmail is a fluent interface library to help build MailMessage objects.
 
+Instructions are available at: https://github.com/ScottLilly/FluentEmail/blob/master/INSTRUCTIONS.md
+
 It lets you use IntelliSense and method chaining to create a MailMessage object, and enforces "rules of grammar" to ensure the required values are set.
 
 For example, after calling CreateMailMessage() or CreateHtmlMailMessage(), the only function available next (shown via IntelliSense) is the From() function. The From() function cannot be called more than once. After it's called, the library requires you call To() at least once. And so on.
