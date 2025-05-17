@@ -7,6 +7,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentEmail", "FluentEmail\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.FluentEmail", "Test.FluentEmail\Test.FluentEmail.csproj", "{ADA557CD-7C29-4FF3-B513-9BAC4CB6FB5A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		INSTRUCTIONS.md = INSTRUCTIONS.md
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+		RELEASE_NOTES.md = RELEASE_NOTES.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{07C35CE0-DD44-4B29-A96E-028185C108A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{32C98AC1-8D4E-4FA6-81B4-445B3A72E22D}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +39,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{07C35CE0-DD44-4B29-A96E-028185C108A4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{32C98AC1-8D4E-4FA6-81B4-445B3A72E22D} = {07C35CE0-DD44-4B29-A96E-028185C108A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BF45FA18-9D98-49EE-8466-159B97E499F3}
