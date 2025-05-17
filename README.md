@@ -1,4 +1,4 @@
-# ScottLilly.FluentEmail
+# ScottLilly.FluentEmail (NuGet package)
 
 <img align="left" width="75" height="75" style="color:white" src="https://github.com/ScottLilly/FluentEmail/blob/master/envelope.png">
 FluentEmail is a fluent interface NuGet package to help build MailMessage objects.
