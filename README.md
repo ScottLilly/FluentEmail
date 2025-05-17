@@ -1,7 +1,11 @@
 # ScottLilly.FluentEmail
 
-FluentEmail is a fluent interface library to help build MailMessage objects.
+<img align="left" width="75" height="75" style="color:white" src="https://github.com/ScottLilly/FluentEmail/blob/master/envelope.png">
+FluentEmail is a fluent interface NuGet package to help build MailMessage objects.
+<br/><br/>
+Designed to make email sending code easier to use and more natural sounding when reading the source code.
 
+## Project Overview
 ![Build Status](https://github.com/ScottLilly/FluentEmail/actions/workflows/ci.yml/badge.svg)
 [![NuGet](https://img.shields.io/nuget/v/ScottLilly.FluentEmail)](https://www.nuget.org/packages/ScottLilly.FluentEmail/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/ScottLilly.FluentEmail)](https://www.nuget.org/packages/ScottLilly.FluentEmail/)
