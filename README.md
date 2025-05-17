@@ -38,7 +38,7 @@ MailMessage mailMessage =
 Contributions are welcome. Please submit issues or pull requests to the GitHub repository at: https://github.com/ScottLilly/FluentEmail/issues
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE file](https://github.com/ScottLilly/FluentEmail/blob/master/LICENSE.txt) for details.
+This project is licensed under the MIT License. See the [LICENSE file](https://github.com/ScottLilly/FluentEmail/blob/master/LICENSE.md) for details.
 
 ## Contact
 For questions or feedback, please [open an issue here on GitHub](https://github.com/ScottLilly/FluentEmail/issues).
