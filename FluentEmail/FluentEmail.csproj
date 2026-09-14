@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Company>Scott Lilly</Company>
     <Description>A fluent interface to simplify and enforce correct MailMessage instantiation.</Description>
-    <Copyright>2022</Copyright>
+    <Copyright>Copyright (c) 2022-2026 Scott Lilly</Copyright>
     <PackageProjectUrl>https://scottlilly.com/my-nuget-packages/fluentemail/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ScottLilly/FluentEmail</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -16,7 +16,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>ScottLilly.$(AssemblyName)</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
