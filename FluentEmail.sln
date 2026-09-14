@@ -5,10 +5,14 @@ VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentEmail", "FluentEmail\FluentEmail.csproj", "{696768A9-2ECE-4595-8749-C0B3F6CCEE96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.FluentEmail", "Test.FluentEmail\Test.FluentEmail.csproj", "{ADA557CD-7C29-4FF3-B513-9BAC4CB6FB5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.FluentEmail", "Tests.FluentEmail\Tests.FluentEmail.csproj", "{ADA557CD-7C29-4FF3-B513-9BAC4CB6FB5A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		CLAUDE.md = CLAUDE.md
 		INSTRUCTIONS.md = INSTRUCTIONS.md
 		LICENSE.md = LICENSE.md
 		README.md = README.md
@@ -20,6 +24,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{32C98AC1-8D4E-4FA6-81B4-445B3A72E22D}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{8316CECC-C254-496A-B99E-A03CD7C4B098}"
+	ProjectSection(SolutionItems) = preProject
+		docs\ARCHITECTURE.md = docs\ARCHITECTURE.md
+		docs\BACKLOG.md = docs\BACKLOG.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{60E86CB9-DD13-491A-AE75-FB20C517D3FD}"
+	ProjectSection(SolutionItems) = preProject
+		tools\README.md = tools\README.md
 	EndProjectSection
 EndProject
 Global

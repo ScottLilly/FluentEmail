@@ -2,7 +2,7 @@
 using FluentEmail;
 using Xunit;
 
-namespace Test.FluentEmail
+namespace Tests.FluentEmail
 {
     public class Test_InstantiatingMethods
     {

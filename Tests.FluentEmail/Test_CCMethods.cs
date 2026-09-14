@@ -5,38 +5,38 @@ using System.Text;
 using FluentEmail;
 using Xunit;
 
-namespace Test.FluentEmail
+namespace Tests.FluentEmail
 {
-    public class Test_BBCCMethods
+    public class Test_CCMethods
     {
         [Fact]
-        public void Test_BCC_String()
+        public void Test_CC_String()
         {
             var mailMessage =
                 FluentMailMessage
                     .CreateMailMessage()
                     .From("from@test.com")
                     .To("asd@test.com")
-                    .BCC("qwe@test.com")
-                    .BCC("zxc@test.com")
+                    .CC("qwe@test.com")
+                    .CC("zxc@test.com")
                     .Subject("test")
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.Bcc.Count);
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.Equal(2, mailMessage.CC.Count);
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
         [Fact]
-        public void Test_BCC_IEnumerableString()
+        public void Test_CC_IEnumerableString()
         {
             var mailMessage =
                 FluentMailMessage
                     .CreateMailMessage()
                     .From("from@test.com")
                     .To("asd@test.com")
-                    .BCC(new List<string>
+                    .CC(new List<string>
                     {
                         "qwe@test.com",
                         "qwe@test.com", // Duplicate, so should not be added
@@ -46,49 +46,49 @@ namespace Test.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.Bcc.Count);
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.Equal(2, mailMessage.CC.Count);
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
         [Fact]
-        public void Test_BCC_StringString()
+        public void Test_CC_StringString()
         {
             var mailMessage =
                 FluentMailMessage
                     .CreateMailMessage()
                     .From("from@test.com")
                     .To("asd@test.com")
-                    .BCC("qwe@test.com", "Qwe Test")
-                    .BCC("zxc@test.com", "Zxc Test")
-                    .BCC("zxc@test.com", "Zxc Test") // Duplicate, should not add
+                    .CC("qwe@test.com", "Qwe Test")
+                    .CC("zxc@test.com", "Zxc Test")
+                    .CC("zxc@test.com", "Zxc Test") // Duplicate, should not add
                     .Subject("test")
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.Bcc.Count);
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.DisplayName.Equals("Qwe Test")));
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.DisplayName.Equals("Zxc Test")));
+            Assert.Equal(2, mailMessage.CC.Count);
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.DisplayName.Equals("Qwe Test")));
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.DisplayName.Equals("Zxc Test")));
         }
 
         [Fact]
-        public void Test_BCC_StringStringEncoding()
+        public void Test_CC_StringStringEncoding()
         {
             var mailMessage =
                 FluentMailMessage
                     .CreateMailMessage()
                     .From("from@test.com")
                     .To("asd@test.com")
-                    .BCC("qwe@test.com", "Qwe Test", Encoding.UTF8)
-                    .BCC("zxc@test.com", "Zxc Test", Encoding.UTF8)
-                    .BCC("zxc@test.com", "Zxc Test", Encoding.UTF8) // Duplicate, should not add
+                    .CC("qwe@test.com", "Qwe Test", Encoding.UTF8)
+                    .CC("zxc@test.com", "Zxc Test", Encoding.UTF8)
+                    .CC("zxc@test.com", "Zxc Test", Encoding.UTF8) // Duplicate, should not add
                     .Subject("test")
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.Bcc.Count);
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.Equal(2, mailMessage.CC.Count);
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
         [Fact]
@@ -99,15 +99,15 @@ namespace Test.FluentEmail
                     .CreateMailMessage()
                     .From("from@test.com")
                     .To("asd@test.com")
-                    .BCC(new MailAddress("qwe@test.com", "Qwe Test"))
-                    .BCC(new MailAddress("zxc@test.com", "Zxc Test"))
+                    .CC(new MailAddress("qwe@test.com", "Qwe Test"))
+                    .CC(new MailAddress("zxc@test.com", "Zxc Test"))
                     .Subject("test")
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.Bcc.Count);
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.Equal(2, mailMessage.CC.Count);
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace Test.FluentEmail
                     .CreateMailMessage()
                     .From("from@test.com")
                     .To("asd@test.com")
-                    .BCC(new List<MailAddress>
+                    .CC(new List<MailAddress>
                     {
                         new MailAddress("qwe@test.com"),
                         new MailAddress("qwe@test.com"), // Duplicate, so should not be added
@@ -128,9 +128,9 @@ namespace Test.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.Bcc.Count);
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(mailMessage.Bcc.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.Equal(2, mailMessage.CC.Count);
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.True(mailMessage.CC.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
     }
 }
