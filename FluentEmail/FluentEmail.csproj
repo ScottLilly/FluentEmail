@@ -12,7 +12,6 @@
     <Authors>Scott Lilly</Authors>
     <PackageTags>email, mailmessage, fluent interface</PackageTags>
     <PackageIcon>envelope.png</PackageIcon>
-    <SignAssembly>True</SignAssembly>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>ScottLilly.$(AssemblyName)</PackageId>
