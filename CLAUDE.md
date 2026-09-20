@@ -56,10 +56,14 @@ bump it there first. Release notes come from the matching `## Version x.y.z` sec
 
 ## Settled work leaves no trace
 
-When something is **built**, delete it from `docs/BACKLOG.md` and do not write it up anywhere else.
-No superseded sections, no struck-through questions, no "amended on such a date" banners. The
-documents describe the project as it is now. Git holds the history.
+This project has no backlog document. Unbuilt work is a GitHub issue, and an idea worth keeping is
+raised as one rather than written into a file.
 
-When something is **decided against**, delete it from Proposed and leave one brief line under
-`## Decided against` saying why, so it does not get re-proposed. A GitHub issue that is dropped
-is closed as not planned and taken off its milestone, so it does not count as that milestone's work.
+When something is **built**, it gets no write-up anywhere. No superseded sections, no struck-through
+questions, no "amended on such a date" banners. The documents describe the project as it is now.
+Git holds the history.
+
+When something is **decided against**, it gets one brief line under `## Decided against` in
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) saying why, so it does not get re-proposed. A GitHub
+issue that is dropped is closed as not planned and taken off its milestone, so it does not count as
+that milestone's work.

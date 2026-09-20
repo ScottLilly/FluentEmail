@@ -1,7 +1,7 @@
 # Architecture
 
 What exists and why it is built this way. Work that is not built yet lives in
-[BACKLOG.md](BACKLOG.md).
+[GitHub Issues](https://github.com/ScottLilly/FluentEmail/issues), not in a document.
 
 ## Shape
 
@@ -74,3 +74,10 @@ Test project only: `xunit`, `xunit.runner.visualstudio`, `Microsoft.NET.Test.Sdk
   send email, not just build a `MailMessage`. That changes the package from a builder with no I/O
   into something that talks to an SMTP server, and it is the one open item that would reshape the
   architecture rather than extend it.
+
+## Decided against
+
+Where a settled "no" goes, so the same idea is not proposed again in three months. One line each,
+with the reason, because a closed issue is not somewhere anyone looks before proposing a change.
+
+Nothing yet.

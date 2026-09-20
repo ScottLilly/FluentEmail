@@ -30,7 +30,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{8316CECC-C254-496A-B99E-A03CD7C4B098}"
 	ProjectSection(SolutionItems) = preProject
 		docs\ARCHITECTURE.md = docs\ARCHITECTURE.md
-		docs\BACKLOG.md = docs\BACKLOG.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{60E86CB9-DD13-491A-AE75-FB20C517D3FD}"
