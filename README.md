@@ -6,7 +6,7 @@ This is a fluent interface NuGet package to help build MailMessage objects.
 Designed to make email sending code easier to use and more natural sounding when reading the source code.
 
 ## Project Overview
-![Build Status](https://github.com/ScottLilly/FluentEmail/actions/workflows/ci.yml/badge.svg)
+![Build Status](https://github.com/ScottLilly/FluentEmail/actions/workflows/build-and-test.yml/badge.svg)
 [![NuGet](https://img.shields.io/nuget/v/ScottLilly.FluentEmail)](https://www.nuget.org/packages/ScottLilly.FluentEmail/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/ScottLilly.FluentEmail)](https://www.nuget.org/packages/ScottLilly.FluentEmail/)
 [![License](https://img.shields.io/github/license/ScottLilly/FluentEmail)](https://github.com/ScottLilly/FluentEmail/LICENSE)
