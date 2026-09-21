@@ -4,10 +4,10 @@ using Xunit;
 
 namespace Tests.FluentEmail
 {
-    public class Test_InstantiatingMethods
+    public class InstantiatingTests
     {
         [Fact]
-        public void Test_CreateMailMessage()
+        public void Test_CreateMailMessage_Default_ReturnsPlainTextMailMessage()
         {
             var mailMessage =
                 FluentMailMessage
@@ -24,7 +24,7 @@ namespace Tests.FluentEmail
         }
 
         [Fact]
-        public void Test_CreateHtmlMailMessage()
+        public void Test_CreateHtmlMailMessage_Default_ReturnsHtmlMailMessage()
         {
             var mailMessage =
                 FluentMailMessage
@@ -41,7 +41,7 @@ namespace Tests.FluentEmail
         }
 
         [Fact]
-        public void Test_PriorityDefault()
+        public void Test_CreateMailMessage_NoPriority_PriorityIsNormal()
         {
             var mailMessage =
                 FluentMailMessage
@@ -56,7 +56,7 @@ namespace Tests.FluentEmail
         }
 
         [Fact]
-        public void Test_PriorityLow()
+        public void Test_CreateMailMessage_PriorityLow_PriorityIsLow()
         {
             var mailMessage =
                 FluentMailMessage
@@ -71,7 +71,7 @@ namespace Tests.FluentEmail
         }
 
         [Fact]
-        public void Test_PriorityNormal()
+        public void Test_CreateMailMessage_PriorityNormal_PriorityIsNormal()
         {
             var mailMessage =
                 FluentMailMessage
@@ -86,7 +86,7 @@ namespace Tests.FluentEmail
         }
 
         [Fact]
-        public void Test_PriorityHigh()
+        public void Test_CreateMailMessage_PriorityHigh_PriorityIsHigh()
         {
             var mailMessage =
                 FluentMailMessage

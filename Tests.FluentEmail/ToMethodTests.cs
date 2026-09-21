@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Tests.FluentEmail
 {
-    public class Test_ToMethods
+    public class ToMethodTests
     {
         [Fact]
         public void Test_To_String()

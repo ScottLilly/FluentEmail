@@ -85,13 +85,22 @@ dotnet_code_quality_unused_parameters = non_public:suggestion
 
 ###############################################################################
 # Naming. Measured: 500 private instance fields with a leading underscore, and
-# 278 private const or static readonly members in PascalCase.
+# 278 private const or static readonly members in PascalCase. Two rules below
+# deliberately do not describe that existing code, because csharp.md says
+# otherwise: constants are UPPER_SNAKE_CASE, and private static fields are
+# s_camelCase whether or not they are readonly. Both will warn on a project
+# still using PascalCase for those, until the members are renamed. This project
+# has one constant and no private static fields, so neither rule bites here.
 ###############################################################################
 
 dotnet_naming_style.pascal_case.capitalization = pascal_case
 dotnet_naming_style.camel_case.capitalization = camel_case
 dotnet_naming_style.underscore_camel_case.capitalization = camel_case
 dotnet_naming_style.underscore_camel_case.required_prefix = _
+dotnet_naming_style.upper_snake_case.capitalization = all_upper
+dotnet_naming_style.upper_snake_case.word_separator = _
+dotnet_naming_style.s_camel_case.capitalization = camel_case
+dotnet_naming_style.s_camel_case.required_prefix = s_
 dotnet_naming_style.interface_prefix.capitalization = pascal_case
 dotnet_naming_style.interface_prefix.required_prefix = I
 
@@ -102,19 +111,33 @@ dotnet_naming_rule.private_fields_underscore.symbols = private_fields
 dotnet_naming_rule.private_fields_underscore.style = underscore_camel_case
 dotnet_naming_rule.private_fields_underscore.severity = warning
 
-# Constants and static readonly: PascalCase. Listed after the rule above so it
-# wins for the symbols it matches.
-dotnet_naming_symbols.constants.applicable_kinds = field
-dotnet_naming_symbols.constants.required_modifiers = const
-dotnet_naming_rule.constants_pascal.symbols = constants
-dotnet_naming_rule.constants_pascal.style = pascal_case
-dotnet_naming_rule.constants_pascal.severity = warning
-
+# Static readonly: PascalCase, except the private ones, which the rule below
+# takes. Spelled out as accessibilities rather than left to rule order: this
+# rule names two modifiers and beats the one below on specificity, so ordering
+# alone does not settle it.
 dotnet_naming_symbols.static_readonly_fields.applicable_kinds = field
+dotnet_naming_symbols.static_readonly_fields.applicable_accessibilities = public,internal,protected,protected_internal,private_protected
 dotnet_naming_symbols.static_readonly_fields.required_modifiers = static,readonly
 dotnet_naming_rule.static_readonly_pascal.symbols = static_readonly_fields
 dotnet_naming_rule.static_readonly_pascal.style = pascal_case
 dotnet_naming_rule.static_readonly_pascal.severity = warning
+
+# Private static fields: s_camelCase, readonly or not. Listed after both rules
+# above so it beats them for the symbols it matches.
+dotnet_naming_symbols.private_static_fields.applicable_kinds = field
+dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_fields.required_modifiers = static
+dotnet_naming_rule.private_static_s_camel.symbols = private_static_fields
+dotnet_naming_rule.private_static_s_camel.style = s_camel_case
+dotnet_naming_rule.private_static_s_camel.severity = warning
+
+# Constants: UPPER_SNAKE_CASE. Last, because a const counts as static and would
+# otherwise be caught by the rule above.
+dotnet_naming_symbols.constants.applicable_kinds = field
+dotnet_naming_symbols.constants.required_modifiers = const
+dotnet_naming_rule.constants_upper_snake.symbols = constants
+dotnet_naming_rule.constants_upper_snake.style = upper_snake_case
+dotnet_naming_rule.constants_upper_snake.severity = warning
 
 # Interfaces start with I.
 dotnet_naming_symbols.interfaces.applicable_kinds = interface
@@ -123,7 +146,8 @@ dotnet_naming_rule.interfaces_i_prefix.style = interface_prefix
 dotnet_naming_rule.interfaces_i_prefix.severity = warning
 
 # Types and non-field members: PascalCase. Measured zero warnings here: the rule
-# checks the leading character, so Test_BodyMethods passes. Left at warning.
+# checks the leading character, so the Test_Body_String style of test method name
+# passes. Left at warning.
 dotnet_naming_symbols.types_and_members.applicable_kinds = class,struct,enum,property,method,event,delegate,namespace
 dotnet_naming_rule.types_pascal.symbols = types_and_members
 dotnet_naming_rule.types_pascal.style = pascal_case
@@ -134,6 +158,14 @@ dotnet_naming_symbols.locals_and_parameters.applicable_kinds = parameter,local
 dotnet_naming_rule.locals_camel.symbols = locals_and_parameters
 dotnet_naming_rule.locals_camel.style = camel_case
 dotnet_naming_rule.locals_camel.severity = warning
+
+# A local constant is a constant, so it shouts like one rather than following
+# the locals rule above.
+dotnet_naming_symbols.local_constants.applicable_kinds = local
+dotnet_naming_symbols.local_constants.required_modifiers = const
+dotnet_naming_rule.local_constants_upper_snake.symbols = local_constants
+dotnet_naming_rule.local_constants_upper_snake.style = upper_snake_case
+dotnet_naming_rule.local_constants_upper_snake.severity = warning
 
 [tools/**.cs]
 # Generators are not the product. Keep them formatted, stop warning about them.

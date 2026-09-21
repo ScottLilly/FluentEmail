@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Tests.FluentEmail
 {
-    public class Test_FromMethods
+    public class FromMethodTests
     {
         [Fact]
         public void Test_From_String()
@@ -48,12 +48,12 @@ namespace Tests.FluentEmail
         {
             // The accented characters are the point of the test: they are what forces the
             // display name to be encoded rather than written as-is.
-            const string displayName = "José Müller";
+            const string DISPLAY_NAME = "José Müller";
 
             var mailMessage =
                 FluentMailMessage
                     .CreateMailMessage()
-                    .From("from@test.com", displayName, Encoding.Unicode)
+                    .From("from@test.com", DISPLAY_NAME, Encoding.Unicode)
                     .To("qwe@test.com")
                     .Subject("test")
                     .Body("This is the email body")
@@ -61,7 +61,7 @@ namespace Tests.FluentEmail
 
             Assert.NotNull(mailMessage.From);
             Assert.Equal("from@test.com", mailMessage.From.Address);
-            Assert.Equal(displayName, mailMessage.From.DisplayName);
+            Assert.Equal(DISPLAY_NAME, mailMessage.From.DisplayName);
 
             // MailAddress does not expose the encoding it was constructed with, so the only
             // way to prove the encoding was passed through is to look at the written message.

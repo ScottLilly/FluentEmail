@@ -4,10 +4,10 @@ using Xunit;
 
 namespace Tests.FluentEmail
 {
-    public class Test_BodyMethods
+    public class SubjectMethodTests
     {
         [Fact]
-        public void Test_Body_String()
+        public void Test_Subject_String()
         {
             var mailMessage =
                 FluentMailMessage
@@ -18,23 +18,23 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal("This is the email body", mailMessage.Body);
+            Assert.Equal("Hello", mailMessage.Subject);
         }
 
         [Fact]
-        public void Test_Body_StringEncoding()
+        public void Test_Subject_StringEncoding()
         {
             var mailMessage =
                 FluentMailMessage
                     .CreateHtmlMailMessage()
                     .From("from@test.com")
                     .To("qwe@test.com")
-                    .Subject("Hello")
-                    .Body("This is the email body", Encoding.UTF8)
+                    .Subject("Hello", Encoding.UTF8)
+                    .Body("This is the email body")
                     .Build();
 
-            Assert.Equal("This is the email body", mailMessage.Body);
-            Assert.Equal(Encoding.UTF8, mailMessage.BodyEncoding);
+            Assert.Equal("Hello", mailMessage.Subject);
+            Assert.Equal(Encoding.UTF8, mailMessage.SubjectEncoding);
         }
     }
 }

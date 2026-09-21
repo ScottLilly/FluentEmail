@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Tests.FluentEmail
 {
-    public class Test_AttachmentMethods
+    public class AttachmentMethodTests
     {
         private readonly string _filename1 = 
             Path.Combine(".", "TestFiles", "filename1.txt");
