@@ -11,11 +11,16 @@ FluentEmail.sln
   Tests.FluentEmail/    net8.0            MSTest, covers the library
 ```
 
-Two source files carry the whole library:
+One public type per file:
 
 | File | Holds |
 |---|---|
-| `FluentMailMessage.cs` | The builder, plus the five public interfaces that sequence it |
+| `FluentMailMessage.cs` | The builder |
+| `IMustAddFromAddress.cs` | Step 1 of the chain |
+| `IMustAddToAddress.cs` | Step 2 |
+| `ICanAddToCcBccOrSubject.cs` | Step 3, the only step that can repeat |
+| `IMustAddBody.cs` | Step 4 |
+| `ICanAddAttachmentOrBuild.cs` | Step 5, and `Build()` |
 | `ExtensionMethods.cs` | `internal static Matches`, a string comparison helper |
 
 ## Decisions already made
