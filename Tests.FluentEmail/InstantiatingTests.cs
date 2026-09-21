@@ -1,12 +1,13 @@
 ﻿using System.Net.Mail;
 using FluentEmail;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.FluentEmail
 {
+    [TestClass]
     public class InstantiatingTests
     {
-        [Fact]
+        [TestMethod]
         public void Test_CreateMailMessage_Default_ReturnsPlainTextMailMessage()
         {
             var mailMessage =
@@ -18,12 +19,12 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.NotNull(mailMessage);
-            Assert.IsType<MailMessage>(mailMessage);
-            Assert.False(mailMessage.IsBodyHtml);
+            Assert.IsNotNull(mailMessage);
+            Assert.IsInstanceOfType<MailMessage>(mailMessage);
+            Assert.IsFalse(mailMessage.IsBodyHtml);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_CreateHtmlMailMessage_Default_ReturnsHtmlMailMessage()
         {
             var mailMessage =
@@ -35,12 +36,12 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.NotNull(mailMessage);
-            Assert.IsType<MailMessage>(mailMessage);
-            Assert.True(mailMessage.IsBodyHtml);
+            Assert.IsNotNull(mailMessage);
+            Assert.IsInstanceOfType<MailMessage>(mailMessage);
+            Assert.IsTrue(mailMessage.IsBodyHtml);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_CreateMailMessage_NoPriority_PriorityIsNormal()
         {
             var mailMessage =
@@ -52,10 +53,10 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(MailPriority.Normal, mailMessage.Priority);
+            Assert.AreEqual(MailPriority.Normal, mailMessage.Priority);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_CreateMailMessage_PriorityLow_PriorityIsLow()
         {
             var mailMessage =
@@ -67,10 +68,10 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(MailPriority.Low, mailMessage.Priority);
+            Assert.AreEqual(MailPriority.Low, mailMessage.Priority);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_CreateMailMessage_PriorityNormal_PriorityIsNormal()
         {
             var mailMessage =
@@ -82,10 +83,10 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(MailPriority.Normal, mailMessage.Priority);
+            Assert.AreEqual(MailPriority.Normal, mailMessage.Priority);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_CreateMailMessage_PriorityHigh_PriorityIsHigh()
         {
             var mailMessage =
@@ -97,7 +98,7 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(MailPriority.High, mailMessage.Priority);
+            Assert.AreEqual(MailPriority.High, mailMessage.Priority);
         }
     }
 }

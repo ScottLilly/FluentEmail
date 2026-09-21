@@ -2,10 +2,11 @@
 using System.IO;
 using System.Net.Mime;
 using FluentEmail;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.FluentEmail
 {
+    [TestClass]
     public class AttachmentMethodTests
     {
         private readonly string _filename1 = 
@@ -15,7 +16,7 @@ namespace Tests.FluentEmail
         private readonly ContentType _plainContentType = 
             new ContentType(MediaTypeNames.Text.Plain);
 
-        [Fact]
+        [TestMethod]
         public void Test_AddAttachment_String()
         {
             var mailMessage =
@@ -31,10 +32,10 @@ namespace Tests.FluentEmail
                     .AddAttachment(_filename2)
                     .Build();
 
-            Assert.Equal(2, mailMessage.Attachments.Count);
+            Assert.AreEqual(2, mailMessage.Attachments.Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_AddAttachment_StringString()
         {
             var mailMessage =
@@ -50,10 +51,10 @@ namespace Tests.FluentEmail
                     .AddAttachment(_filename2, "text/html")
                     .Build();
 
-            Assert.Equal(2, mailMessage.Attachments.Count);
+            Assert.AreEqual(2, mailMessage.Attachments.Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_AddAttachment_IEnumerableString()
         {
             var mailMessage =
@@ -72,10 +73,10 @@ namespace Tests.FluentEmail
                     })
                     .Build();
 
-            Assert.Equal(2, mailMessage.Attachments.Count);
+            Assert.AreEqual(2, mailMessage.Attachments.Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_AddAttachment_StringContentType()
         {
             var mailMessage =
@@ -90,10 +91,10 @@ namespace Tests.FluentEmail
                     .AddAttachment(_filename1, _plainContentType) // Duplicate, should not add
                     .Build();
 
-            Assert.Single(mailMessage.Attachments);
+            Assert.AreEqual(1, mailMessage.Attachments.Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_AddAttachment_StreamName()
         {
             using FileStream fs1 = File.OpenRead(_filename1);
@@ -111,10 +112,10 @@ namespace Tests.FluentEmail
                     .AddAttachment(fs2, _filename2)
                     .Build();
 
-            Assert.Equal(2, mailMessage.Attachments.Count);
+            Assert.AreEqual(2, mailMessage.Attachments.Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_AddAttachment_StreamNameMimeType()
         {
             using FileStream fs1 = File.OpenRead(_filename1);
@@ -132,10 +133,10 @@ namespace Tests.FluentEmail
                     .AddAttachment(fs2, _filename2, "text/html")
                     .Build();
 
-            Assert.Equal(2, mailMessage.Attachments.Count);
+            Assert.AreEqual(2, mailMessage.Attachments.Count);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_AddAttachment_StreamContentType()
         {
             using FileStream fs1 = File.OpenRead(_filename1);
@@ -153,7 +154,7 @@ namespace Tests.FluentEmail
                     .AddAttachment(fs2, _plainContentType)
                     .Build();
 
-            Assert.Equal(2, mailMessage.Attachments.Count);
+            Assert.AreEqual(2, mailMessage.Attachments.Count);
         }
     }
 }

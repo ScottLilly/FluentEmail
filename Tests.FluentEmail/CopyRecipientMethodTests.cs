@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using FluentEmail;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.FluentEmail
 {
@@ -37,7 +37,7 @@ namespace Tests.FluentEmail
         /// </summary>
         protected abstract MailAddressCollection RecipientsOf(MailMessage mailMessage);
 
-        [Fact]
+        [TestMethod]
         public void Test_Recipient_String()
         {
             var message = StartMessage();
@@ -47,12 +47,12 @@ namespace Tests.FluentEmail
 
             var recipients = RecipientsOf(Build(message));
 
-            Assert.Equal(2, recipients.Count);
-            Assert.True(recipients.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.AreEqual(2, recipients.Count);
+            Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_Recipient_IEnumerableString()
         {
             var message = StartMessage();
@@ -66,12 +66,12 @@ namespace Tests.FluentEmail
 
             var recipients = RecipientsOf(Build(message));
 
-            Assert.Equal(2, recipients.Count);
-            Assert.True(recipients.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.AreEqual(2, recipients.Count);
+            Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_Recipient_StringString()
         {
             var message = StartMessage();
@@ -82,12 +82,12 @@ namespace Tests.FluentEmail
 
             var recipients = RecipientsOf(Build(message));
 
-            Assert.Equal(2, recipients.Count);
-            Assert.True(recipients.ToList().Exists(m => m.DisplayName.Equals("Qwe Test")));
-            Assert.True(recipients.ToList().Exists(m => m.DisplayName.Equals("Zxc Test")));
+            Assert.AreEqual(2, recipients.Count);
+            Assert.IsTrue(recipients.ToList().Exists(m => m.DisplayName.Equals("Qwe Test")));
+            Assert.IsTrue(recipients.ToList().Exists(m => m.DisplayName.Equals("Zxc Test")));
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_Recipient_StringStringEncoding()
         {
             var message = StartMessage();
@@ -98,12 +98,12 @@ namespace Tests.FluentEmail
 
             var recipients = RecipientsOf(Build(message));
 
-            Assert.Equal(2, recipients.Count);
-            Assert.True(recipients.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.AreEqual(2, recipients.Count);
+            Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_Recipient_MailAddress()
         {
             var message = StartMessage();
@@ -113,12 +113,12 @@ namespace Tests.FluentEmail
 
             var recipients = RecipientsOf(Build(message));
 
-            Assert.Equal(2, recipients.Count);
-            Assert.True(recipients.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.AreEqual(2, recipients.Count);
+            Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_Recipient_IEnumerableMailAddress()
         {
             var message = StartMessage();
@@ -132,9 +132,9 @@ namespace Tests.FluentEmail
 
             var recipients = RecipientsOf(Build(message));
 
-            Assert.Equal(2, recipients.Count);
-            Assert.True(recipients.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.AreEqual(2, recipients.Count);
+            Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
         private static ICanAddToCcBccOrSubject StartMessage()

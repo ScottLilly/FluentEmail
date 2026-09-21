@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
 using FluentEmail;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.FluentEmail
 {
+    [TestClass]
     public class CcMethodTests : CopyRecipientMethodTests
     {
         protected override ICanAddToCcBccOrSubject AddRecipient(

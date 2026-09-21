@@ -1,12 +1,13 @@
 ﻿using System.Text;
 using FluentEmail;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.FluentEmail
 {
+    [TestClass]
     public class BodyMethodTests
     {
-        [Fact]
+        [TestMethod]
         public void Test_Body_String()
         {
             var mailMessage =
@@ -18,10 +19,10 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal("This is the email body", mailMessage.Body);
+            Assert.AreEqual("This is the email body", mailMessage.Body);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_Body_StringEncoding()
         {
             var mailMessage =
@@ -33,8 +34,8 @@ namespace Tests.FluentEmail
                     .Body("This is the email body", Encoding.UTF8)
                     .Build();
 
-            Assert.Equal("This is the email body", mailMessage.Body);
-            Assert.Equal(Encoding.UTF8, mailMessage.BodyEncoding);
+            Assert.AreEqual("This is the email body", mailMessage.Body);
+            Assert.AreEqual(Encoding.UTF8, mailMessage.BodyEncoding);
         }
     }
 }

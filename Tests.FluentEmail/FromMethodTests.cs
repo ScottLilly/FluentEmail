@@ -4,13 +4,14 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using FluentEmail;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.FluentEmail
 {
+    [TestClass]
     public class FromMethodTests
     {
-        [Fact]
+        [TestMethod]
         public void Test_From_String()
         {
             var mailMessage =
@@ -22,11 +23,11 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.NotNull(mailMessage.From);
-            Assert.Equal("from@test.com", mailMessage.From.Address);
+            Assert.IsNotNull(mailMessage.From);
+            Assert.AreEqual("from@test.com", mailMessage.From.Address);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_From_StringString()
         {
             var mailMessage =
@@ -38,12 +39,12 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.NotNull(mailMessage.From);
-            Assert.Equal("from@test.com", mailMessage.From.Address);
-            Assert.Equal("John From", mailMessage.From.DisplayName);
+            Assert.IsNotNull(mailMessage.From);
+            Assert.AreEqual("from@test.com", mailMessage.From.Address);
+            Assert.AreEqual("John From", mailMessage.From.DisplayName);
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_From_StringStringEncoding()
         {
             // The accented characters are the point of the test: they are what forces the
@@ -59,18 +60,18 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.NotNull(mailMessage.From);
-            Assert.Equal("from@test.com", mailMessage.From.Address);
-            Assert.Equal(DISPLAY_NAME, mailMessage.From.DisplayName);
+            Assert.IsNotNull(mailMessage.From);
+            Assert.AreEqual("from@test.com", mailMessage.From.Address);
+            Assert.AreEqual(DISPLAY_NAME, mailMessage.From.DisplayName);
 
             // MailAddress does not expose the encoding it was constructed with, so the only
             // way to prove the encoding was passed through is to look at the written message.
             // UTF-16 is deliberately not the default: without the encoding argument this same
             // display name is written as "=?utf-8?", so the assertion would fail.
-            Assert.Contains("=?utf-16?", WriteMessage(mailMessage));
+            StringAssert.Contains(WriteMessage(mailMessage), "=?utf-16?");
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_From_MailAddress()
         {
             var mailMessage =
@@ -82,9 +83,9 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.NotNull(mailMessage.From);
-            Assert.Equal("from@test.com", mailMessage.From.Address);
-            Assert.Equal("John From", mailMessage.From.DisplayName);
+            Assert.IsNotNull(mailMessage.From);
+            Assert.AreEqual("from@test.com", mailMessage.From.Address);
+            Assert.AreEqual("John From", mailMessage.From.DisplayName);
         }
 
         // Writes the message to a throwaway pickup directory and returns its raw text,

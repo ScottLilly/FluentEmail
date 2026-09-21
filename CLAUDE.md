@@ -13,10 +13,10 @@ to FluentEmail.
 ```
 FluentEmail.sln
   FluentEmail/          netstandard2.0, the library, packed as ScottLilly.FluentEmail
-  Tests.FluentEmail/    net8.0, xUnit, covers the library
+  Tests.FluentEmail/    net8.0, MSTest, covers the library
 docs/                   design notes and architecture
 tools/                  scripts and utilities that are not part of the build
-.github/workflows/      ci.yml on every push, release.yml run by hand
+.github/workflows/      build-and-test.yml on every push, release.yml run by hand
 ```
 
 All markdown except this file, `README.md`, `INSTRUCTIONS.md`, `LICENSE.md` and
@@ -28,7 +28,6 @@ linked from the NuGet listing, the license is embedded in the package, and `rele
 
 These are decisions, not oversights. Do not "fix" them without being asked.
 
-- **xUnit, not MSTest.** The suite predates the MSTest default and works.
 - **`.sln`, not `.slnx`.** This project stays on .NET 8. Reading a `.slnx` needs the .NET 9 or 10
   SDK, so converting it would force the CI workflows off the 8.0 SDK they pin. Do not convert it.
 - **No `Directory.Build.props`.** The package version lives in `FluentEmail/FluentEmail.csproj`,

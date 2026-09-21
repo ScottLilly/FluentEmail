@@ -3,13 +3,14 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using FluentEmail;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.FluentEmail
 {
+    [TestClass]
     public class ToMethodTests
     {
-        [Fact]
+        [TestMethod]
         public void Test_To_String()
         {
             var mailMessage =
@@ -22,12 +23,12 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.To.Count);
-            Assert.True(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.AreEqual(2, mailMessage.To.Count);
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_To_IEnumerableString()
         {
             var mailMessage =
@@ -44,12 +45,12 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.To.Count);
-            Assert.True(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.AreEqual(2, mailMessage.To.Count);
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_To_StringString()
         {
             var mailMessage =
@@ -63,12 +64,12 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.To.Count);
-            Assert.True(mailMessage.To.ToList().Exists(m => m.DisplayName.Equals("Qwe Test")));
-            Assert.True(mailMessage.To.ToList().Exists(m => m.DisplayName.Equals("Zxc Test")));
+            Assert.AreEqual(2, mailMessage.To.Count);
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.DisplayName.Equals("Qwe Test")));
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.DisplayName.Equals("Zxc Test")));
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_To_StringStringEncoding()
         {
             var mailMessage =
@@ -82,12 +83,12 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.To.Count);
-            Assert.True(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.AreEqual(2, mailMessage.To.Count);
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_To_MailAddress()
         {
             var mailMessage =
@@ -100,12 +101,12 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.To.Count);
-            Assert.True(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.AreEqual(2, mailMessage.To.Count);
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
-        [Fact]
+        [TestMethod]
         public void Test_To_IEnumerableMailAddress()
         {
             var mailMessage =
@@ -122,9 +123,9 @@ namespace Tests.FluentEmail
                     .Body("This is the email body")
                     .Build();
 
-            Assert.Equal(2, mailMessage.To.Count);
-            Assert.True(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
-            Assert.True(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
+            Assert.AreEqual(2, mailMessage.To.Count);
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
+            Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
     }
 }

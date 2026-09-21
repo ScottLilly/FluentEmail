@@ -8,7 +8,7 @@ What exists and why it is built this way. Work that is not built yet lives in
 ```
 FluentEmail.sln
   FluentEmail/          netstandard2.0    the library, packed as ScottLilly.FluentEmail
-  Tests.FluentEmail/    net8.0            xUnit, covers the library
+  Tests.FluentEmail/    net8.0            MSTest, covers the library
 ```
 
 Two source files carry the whole library:
@@ -65,8 +65,7 @@ release tag from, so the tag can never disagree with the package. There is no
 |---|---|
 | (none) | The library references only `System.Net.Mail` from netstandard2.0 |
 
-Test project only: `xunit`, `xunit.runner.visualstudio`, `Microsoft.NET.Test.Sdk`,
-`coverlet.collector`.
+Test project only: `MSTest`, `Microsoft.NET.Test.Sdk`, `coverlet.collector`.
 
 ## Open questions
 
