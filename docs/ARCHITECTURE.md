@@ -56,8 +56,13 @@ being added to `CC`.
 
 `_attachmentFileNames` is a `HashSet<string>` using `OrdinalIgnoreCase`, and the three
 `AddAttachmentIfNew` overloads consult it before attaching. Adding the same file twice is a no-op
-rather than an error or a duplicate attachment. The `Stream` overloads do not take part in this;
-see issue [#40](https://github.com/ScottLilly/FluentEmail/issues/40).
+rather than an error or a duplicate attachment.
+
+The three `Stream` overloads deliberately do not take part. Skipping a filename costs nothing, but
+skipping a stream orphans it: the caller has already opened it, and only an attachment that is
+actually added gets disposed when the `MailMessage` is. Two streams may also legitimately share a
+name, and `AddAttachment(Stream, ContentType)` has no name to key on at all when `ContentType.Name`
+is null.
 
 ### netstandard2.0
 
@@ -91,4 +96,6 @@ Test project only: `MSTest`, `Microsoft.NET.Test.Sdk`, `coverlet.collector`.
 Where a settled "no" goes, so the same idea is not proposed again in three months. One line each,
 with the reason, because a closed issue is not somewhere anyone looks before proposing a change.
 
-Nothing yet.
+- De-duplicating the `Stream` attachment overloads the way the filename ones are de-duplicated.
+  Dropping a stream the caller opened would leak it. See "Attachments are de-duplicated by
+  filename, ignoring case" above for the whole reason.

@@ -17,6 +17,28 @@ namespace Tests.FluentEmail
             new ContentType(MediaTypeNames.Text.Plain);
 
         [TestMethod]
+        public void Test_AddAttachment_StreamSameName_IsNotTreatedAsDuplicate()
+        {
+            // Pins the decision in docs/ARCHITECTURE.md: the Stream overloads do not
+            // de-duplicate, because dropping a stream the caller opened would leak it.
+            using FileStream fs1 = File.OpenRead(_filename1);
+            using FileStream fs2 = File.OpenRead(_filename1);
+
+            var mailMessage =
+                FluentMailMessage
+                    .CreateMailMessage()
+                    .From("from@test.com")
+                    .To("qwe@test.com")
+                    .Subject("Hello")
+                    .Body("This is the email body")
+                    .AddAttachment(fs1, "same-name.txt")
+                    .AddAttachment(fs2, "same-name.txt")
+                    .Build();
+
+            Assert.AreEqual(2, mailMessage.Attachments.Count);
+        }
+
+        [TestMethod]
         public void Test_AddAttachment_StringDifferingOnlyInCase_IsTreatedAsDuplicate()
         {
             // The upper case spelling is never opened, because the duplicate check happens

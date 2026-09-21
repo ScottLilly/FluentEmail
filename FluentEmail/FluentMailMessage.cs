@@ -233,6 +233,11 @@ namespace FluentEmail
 			return this;
 		}
 
+		// The three Stream overloads below deliberately skip the duplicate check the filename
+		// overloads use. Dropping a stream the caller has already opened would leak it, because
+		// only an attachment that is added gets disposed with the MailMessage. See
+		// docs/ARCHITECTURE.md.
+
 		public ICanAddAttachmentOrBuild AddAttachment(Stream stream,
 			string name)
 		{
