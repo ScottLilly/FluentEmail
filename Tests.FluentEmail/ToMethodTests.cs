@@ -127,5 +127,37 @@ namespace Tests.FluentEmail
             Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("qwe@test.com")));
             Assert.IsTrue(mailMessage.To.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
+
+        [TestMethod]
+        public void Test_To_DifferingOnlyInCase_IsTreatedAsDuplicate()
+        {
+            var mailMessage =
+                FluentMailMessage
+                    .CreateMailMessage()
+                    .From("from@test.com")
+                    .To("qwe@test.com")
+                    .To("QWE@Test.com")
+                    .Subject("test")
+                    .Body("This is the email body")
+                    .Build();
+
+            Assert.AreEqual(1, mailMessage.To.Count);
+        }
+
+        [TestMethod]
+        public void Test_To_SameAddressWithDisplayName_IsTreatedAsDuplicate()
+        {
+            var mailMessage =
+                FluentMailMessage
+                    .CreateMailMessage()
+                    .From("from@test.com")
+                    .To("qwe@test.com")
+                    .To("Qwe Test <qwe@test.com>")
+                    .Subject("test")
+                    .Body("This is the email body")
+                    .Build();
+
+            Assert.AreEqual(1, mailMessage.To.Count);
+        }
     }
 }

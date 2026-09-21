@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
@@ -11,7 +12,8 @@ namespace FluentEmail
         ICanAddToCcBccOrSubject, IMustAddBody, ICanAddAttachmentOrBuild
     {
         private readonly MailMessage _mailMessage = new MailMessage();
-		private readonly HashSet<string> _attachmentFileNames = new HashSet<string>();
+		private readonly HashSet<string> _attachmentFileNames =
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
 		// Private constructor
 		private FluentMailMessage(bool isHtml, MailPriority priority = MailPriority.Normal)
@@ -66,287 +68,107 @@ namespace FluentEmail
 
 		#endregion
 
-		#region To methods
+        #region To methods
 
-		public ICanAddToCcBccOrSubject To(string emailAddress)
+        public ICanAddToCcBccOrSubject To(string emailAddress)
         {
-            var existingAddress =
-                _mailMessage.To
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+            return AddIfNew(_mailMessage.To, new MailAddress(emailAddress));
+        }
 
-            if (existingAddress == null)
-            {
-				_mailMessage.To.Add(new MailAddress(emailAddress));
-            }
+        public ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddresses)
+        {
+            return AddIfNew(_mailMessage.To, emailAddresses.Select(e => new MailAddress(e)));
+        }
 
-			return this;
-		}
+        public ICanAddToCcBccOrSubject To(string emailAddress, string displayName)
+        {
+            return AddIfNew(_mailMessage.To, new MailAddress(emailAddress, displayName));
+        }
 
-		public ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddresses)
-		{
-            foreach (string emailAddress in emailAddresses)
-            {
-                var existingAddress =
-                    _mailMessage.To
-                        .FirstOrDefault(e => e.Address.Matches(emailAddress));
+        public ICanAddToCcBccOrSubject To(string emailAddress, string displayName, Encoding encodingType)
+        {
+            return AddIfNew(_mailMessage.To, new MailAddress(emailAddress, displayName, encodingType));
+        }
 
-                if (existingAddress == null)
-                {
-                    _mailMessage.To.Add(new MailAddress(emailAddress));
-                }
-            }
+        public ICanAddToCcBccOrSubject To(MailAddress emailAddress)
+        {
+            return AddIfNew(_mailMessage.To, emailAddress);
+        }
 
-			return this;
-		}
+        public ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddresses)
+        {
+            return AddIfNew(_mailMessage.To, emailAddresses);
+        }
 
-		public ICanAddToCcBccOrSubject To(string emailAddress, string displayName)
-		{
-            var existingAddress =
-                _mailMessage.To
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+        #endregion
 
-			if (existingAddress == null)
-            {
-                _mailMessage.To.Add(new MailAddress(emailAddress, displayName));
-            }
+        #region CC methods
 
-			return this;
-		}
+        public ICanAddToCcBccOrSubject CC(string emailAddress)
+        {
+            return AddIfNew(_mailMessage.CC, new MailAddress(emailAddress));
+        }
 
-		public ICanAddToCcBccOrSubject To(string emailAddress, string displayName, Encoding encodingType)
-		{
-            var existingAddress =
-                _mailMessage.To
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
+        public ICanAddToCcBccOrSubject CC(IEnumerable<string> emailAddresses)
+        {
+            return AddIfNew(_mailMessage.CC, emailAddresses.Select(e => new MailAddress(e)));
+        }
 
-            if (existingAddress == null)
-            {
-                _mailMessage.To.Add(new MailAddress(emailAddress, displayName, encodingType));
-            }
+        public ICanAddToCcBccOrSubject CC(string emailAddress, string displayName)
+        {
+            return AddIfNew(_mailMessage.CC, new MailAddress(emailAddress, displayName));
+        }
 
-			return this;
-		}
+        public ICanAddToCcBccOrSubject CC(string emailAddress, string displayName, Encoding encodingType)
+        {
+            return AddIfNew(_mailMessage.CC, new MailAddress(emailAddress, displayName, encodingType));
+        }
 
-		public ICanAddToCcBccOrSubject To(MailAddress emailAddress)
-		{
-            var existingAddress =
-                _mailMessage.To
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
+        public ICanAddToCcBccOrSubject CC(MailAddress emailAddress)
+        {
+            return AddIfNew(_mailMessage.CC, emailAddress);
+        }
 
-            if (existingAddress == null)
-            {
-                _mailMessage.To.Add(emailAddress);
-            }
+        public ICanAddToCcBccOrSubject CC(IEnumerable<MailAddress> emailAddresses)
+        {
+            return AddIfNew(_mailMessage.CC, emailAddresses);
+        }
 
-			return this;
-		}
+        #endregion
 
-		public ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddresses)
-		{
-            foreach (var emailAddress in emailAddresses)
-            {
-                var existingAddress =
-                    _mailMessage.To
-                        .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
+        #region BCC methods
 
-                if (existingAddress == null)
-                {
-                    _mailMessage.To.Add(emailAddress);
-                }
-            }
+        public ICanAddToCcBccOrSubject BCC(string emailAddress)
+        {
+            return AddIfNew(_mailMessage.Bcc, new MailAddress(emailAddress));
+        }
 
-			return this;
-		}
+        public ICanAddToCcBccOrSubject BCC(IEnumerable<string> emailAddresses)
+        {
+            return AddIfNew(_mailMessage.Bcc, emailAddresses.Select(e => new MailAddress(e)));
+        }
 
-		#endregion
+        public ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName)
+        {
+            return AddIfNew(_mailMessage.Bcc, new MailAddress(emailAddress, displayName));
+        }
 
-		#region CC methods
+        public ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName, Encoding encodingType)
+        {
+            return AddIfNew(_mailMessage.Bcc, new MailAddress(emailAddress, displayName, encodingType));
+        }
 
-		public ICanAddToCcBccOrSubject CC(string emailAddress)
-		{
-            var existingAddress =
-                _mailMessage.CC
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
-			
-            if (existingAddress == null)
-            {
-                _mailMessage.CC.Add(new MailAddress(emailAddress));
-            }
+        public ICanAddToCcBccOrSubject BCC(MailAddress emailAddress)
+        {
+            return AddIfNew(_mailMessage.Bcc, emailAddress);
+        }
 
-			return this;
-		}
+        public ICanAddToCcBccOrSubject BCC(IEnumerable<MailAddress> emailAddresses)
+        {
+            return AddIfNew(_mailMessage.Bcc, emailAddresses);
+        }
 
-		public ICanAddToCcBccOrSubject CC(IEnumerable<string> emailAddresses)
-		{
-            foreach (string emailAddress in emailAddresses)
-            {
-                var existingAddress =
-                    _mailMessage.CC
-                        .FirstOrDefault(e => e.Address.Matches(emailAddress));
-
-                if (existingAddress == null)
-                {
-                    _mailMessage.CC.Add(new MailAddress(emailAddress));
-                }
-            }
-
-			return this;
-		}
-
-		public ICanAddToCcBccOrSubject CC(string emailAddress, string displayName)
-		{
-            var existingAddress =
-                _mailMessage.CC
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
-
-            if (existingAddress == null)
-            {
-                _mailMessage.CC.Add(new MailAddress(emailAddress, displayName));
-            }
-
-			return this;
-		}
-
-		public ICanAddToCcBccOrSubject CC(string emailAddress, string displayName, Encoding encodingType)
-		{
-            var existingAddress =
-                _mailMessage.CC
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
-
-            if (existingAddress == null)
-            {
-                _mailMessage.CC.Add(new MailAddress(emailAddress, displayName, encodingType));
-            }
-
-			return this;
-		}
-
-		public ICanAddToCcBccOrSubject CC(MailAddress emailAddress)
-		{
-            var existingAddress =
-                _mailMessage.CC
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
-
-            if (existingAddress == null)
-            {
-                _mailMessage.CC.Add(emailAddress);
-            }
-
-			return this;
-		}
-
-		public ICanAddToCcBccOrSubject CC(IEnumerable<MailAddress> emailAddresses)
-		{
-            foreach (MailAddress emailAddress in emailAddresses)
-            {
-                var existingAddress =
-                    _mailMessage.CC
-                        .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
-
-                if (existingAddress == null)
-                {
-                    _mailMessage.CC.Add(emailAddress);
-                }
-            }
-
-			return this;
-		}
-
-		#endregion
-
-		#region BCC methods
-
-		public ICanAddToCcBccOrSubject BCC(string emailAddress)
-		{
-            var existingAddress =
-                _mailMessage.Bcc
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
-
-            if (existingAddress == null)
-            {
-                _mailMessage.Bcc.Add(new MailAddress(emailAddress));
-            }
-
-			return this;
-		}
-
-		public ICanAddToCcBccOrSubject BCC(IEnumerable<string> emailAddresses)
-		{
-            foreach (var emailAddress in emailAddresses)
-            {
-                var existingAddress =
-                    _mailMessage.Bcc
-                        .FirstOrDefault(e => e.Address.Matches(emailAddress));
-
-                if (existingAddress == null)
-                {
-                    _mailMessage.Bcc.Add(new MailAddress(emailAddress));
-                }
-            }
-
-			return this;
-		}
-
-		public ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName)
-		{
-            var existingAddress =
-                _mailMessage.Bcc
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
-
-            if (existingAddress == null)
-            {
-                _mailMessage.Bcc.Add(new MailAddress(emailAddress, displayName));
-            }
-
-			return this;
-		}
-
-		public ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName, Encoding encodingType)
-		{
-            var existingAddress =
-                _mailMessage.Bcc
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress));
-
-            if (existingAddress == null)
-            {
-                _mailMessage.Bcc.Add(new MailAddress(emailAddress, displayName, encodingType));
-            }
-
-			return this;
-		}
-
-		public ICanAddToCcBccOrSubject BCC(MailAddress emailAddress)
-		{
-            var existingAddress =
-                _mailMessage.Bcc
-                    .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
-
-            if (existingAddress == null)
-            {
-                _mailMessage.Bcc.Add(emailAddress);
-            }
-
-			return this;
-		}
-
-		public ICanAddToCcBccOrSubject BCC(IEnumerable<MailAddress> emailAddresses)
-		{
-            foreach (var emailAddress in emailAddresses)
-            {
-                var existingAddress =
-                    _mailMessage.Bcc
-                        .FirstOrDefault(e => e.Address.Matches(emailAddress.Address));
-
-                if (existingAddress == null)
-                {
-                    _mailMessage.Bcc.Add(emailAddress);
-                }
-            }
-
-			return this;
-		}
-
-		#endregion
+        #endregion
 
 		#region Subject methods
 
@@ -462,9 +284,30 @@ namespace FluentEmail
 
 		#region Private method(s)
 
+        private ICanAddToCcBccOrSubject AddIfNew(MailAddressCollection collection, MailAddress emailAddress)
+        {
+            if (!collection.Any(existing => existing.Address.Matches(emailAddress.Address)))
+            {
+                collection.Add(emailAddress);
+            }
+
+            return this;
+        }
+
+        private ICanAddToCcBccOrSubject AddIfNew(MailAddressCollection collection,
+            IEnumerable<MailAddress> emailAddresses)
+        {
+            foreach (var emailAddress in emailAddresses)
+            {
+                AddIfNew(collection, emailAddress);
+            }
+
+            return this;
+        }
+
 		private void AddAttachmentIfNew(string filename)
 		{
-			if (_attachmentFileNames.Add(filename.ToLower()))
+			if (_attachmentFileNames.Add(filename))
 			{
 				_mailMessage.Attachments.Add(new Attachment(filename));
 			}
@@ -472,7 +315,7 @@ namespace FluentEmail
 
 		private void AddAttachmentIfNew(string filename, string mimeType)
 		{
-			if (_attachmentFileNames.Add(filename.ToLower()))
+			if (_attachmentFileNames.Add(filename))
 			{
 				_mailMessage.Attachments.Add(new Attachment(filename, mimeType));
 			}
@@ -480,7 +323,7 @@ namespace FluentEmail
 
 		private void AddAttachmentIfNew(string filename, ContentType contentType)
 		{
-			if (_attachmentFileNames.Add(filename.ToLower()))
+			if (_attachmentFileNames.Add(filename))
 			{
 				_mailMessage.Attachments.Add(new Attachment(filename, contentType));
 			}

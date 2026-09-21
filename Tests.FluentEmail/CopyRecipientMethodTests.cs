@@ -137,6 +137,28 @@ namespace Tests.FluentEmail
             Assert.IsTrue(recipients.ToList().Exists(m => m.Address.Equals("zxc@test.com")));
         }
 
+        [TestMethod]
+        public void Test_Recipient_DifferingOnlyInCase_IsTreatedAsDuplicate()
+        {
+            var message = StartMessage();
+
+            message = AddRecipient(message, "qwe@test.com");
+            message = AddRecipient(message, "QWE@Test.com");
+
+            Assert.AreEqual(1, RecipientsOf(Build(message)).Count);
+        }
+
+        [TestMethod]
+        public void Test_Recipient_SameAddressWithDisplayName_IsTreatedAsDuplicate()
+        {
+            var message = StartMessage();
+
+            message = AddRecipient(message, "qwe@test.com");
+            message = AddRecipient(message, "Qwe Test <qwe@test.com>");
+
+            Assert.AreEqual(1, RecipientsOf(Build(message)).Count);
+        }
+
         private static ICanAddToCcBccOrSubject StartMessage()
         {
             return FluentMailMessage

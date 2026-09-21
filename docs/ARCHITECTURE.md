@@ -41,11 +41,23 @@ anyone mid-chain.
 `FluentMailMessage` implements all five interfaces, and the constructor is private. One class holds
 the accumulating `MailMessage`; the interfaces only narrow what is visible at each step.
 
-### Attachments are de-duplicated by filename
+### Recipients are de-duplicated by address, ignoring case
 
-`_attachmentFileNames` is a `HashSet<string>`, and the three `AddAttachmentIfNew` overloads consult
-it before attaching. Adding the same file twice is a no-op rather than an error or a duplicate
-attachment.
+Every `To`, `CC` and `BCC` overload builds a `MailAddress` and hands it to `AddIfNew`, which
+compares `MailAddress.Address` against the addresses already in that collection with
+`OrdinalIgnoreCase`. Adding the same recipient twice is a no-op. Comparing the parsed address
+rather than the string the caller passed means `qwe@test.com` and `Qwe Test <qwe@test.com>` are
+recognized as the same person.
+
+The three collections are otherwise independent: an address in `To` does not stop the same address
+being added to `CC`.
+
+### Attachments are de-duplicated by filename, ignoring case
+
+`_attachmentFileNames` is a `HashSet<string>` using `OrdinalIgnoreCase`, and the three
+`AddAttachmentIfNew` overloads consult it before attaching. Adding the same file twice is a no-op
+rather than an error or a duplicate attachment. The `Stream` overloads do not take part in this;
+see issue [#40](https://github.com/ScottLilly/FluentEmail/issues/40).
 
 ### netstandard2.0
 
