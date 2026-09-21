@@ -24,11 +24,20 @@ After calling the From() function, the only function available next is the To() 
 
 There are several overloads for the To() function.  
 
-After calling To() the first time, the next available functions are: To(), CC(), BCC(), and Subject(). You can call To(), CC(), and BCC() as many times as you want. Once you have entered all the destination email addresses, you can call Subject().  
+After calling To() the first time, the next available functions are: To(), CC(), BCC(), ReplyTo(), and Subject(). You can call To(), CC(), BCC(), and ReplyTo() as many times as you want. Each of them takes the same set of overloads, and each ignores an address that is already in the same collection. Once you have entered all the destination email addresses, you can call Subject().  
 
-After calling Subject(), the only available function is Body().  
+After calling Subject(), the only available function is Body(). Its overloads let you pass a body encoding, a transfer encoding, or both.  
 
-After calling Body(), you can call AddAttachment() and AddAttachments() as many times as you want. The Build() function is also available here, but that will end the method chain.
+After calling Body(), the remaining functions are all optional, and you can call them in any order and as many times as you want:  
+
+- AddAttachment() and AddAttachments(), to attach files or streams.  
+- AddAlternateView() and AddAlternateViews(), to add a second rendering of the body, such as an HTML version alongside a plain text one.  
+- AddHeader() and AddHeaders(), to add custom headers. A header name used twice keeps both values.  
+- DeliveryNotificationOptions(), to ask the mail server for delivery receipts. Calling it again replaces the previous value.  
+
+The Build() function is also available here, but that will end the method chain.
+
+A stream you pass to AddAttachment(), and the content of an AlternateView, are owned by the MailMessage you get back from Build(). Disposing that message is what closes them, so do not dispose the stream yourself before the message is sent.
 
 ## Ending (finalizing) function
 Once all required functions have been called, you can call the Build() function.  

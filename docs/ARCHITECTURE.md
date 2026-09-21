@@ -18,9 +18,9 @@ One public type per file:
 | `FluentMailMessage.cs` | The builder |
 | `IMustAddFromAddress.cs` | Step 1 of the chain |
 | `IMustAddToAddress.cs` | Step 2 |
-| `ICanAddToCcBccOrSubject.cs` | Step 3, the only step that can repeat |
+| `ICanAddToCcBccOrSubject.cs` | Step 3, the only step that can repeat: `To`, `CC`, `BCC`, `ReplyTo` |
 | `IMustAddBody.cs` | Step 4 |
-| `ICanAddAttachmentOrBuild.cs` | Step 5, and `Build()` |
+| `ICanAddAttachmentOrBuild.cs` | Step 5, the optional extras, and `Build()` |
 | `ExtensionMethods.cs` | `internal static Matches`, a string comparison helper |
 
 ## Decisions already made
@@ -33,6 +33,14 @@ Each step returns an interface exposing only the calls that are legal next, so a
 `ICanAddToCcBccOrSubject`, which is where `To`, `CC` and `BCC` can repeat; `Subject()` returns
 `IMustAddBody`; `Body()` returns `ICanAddAttachmentOrBuild`, which is the only place `Build()`
 appears.
+
+Two of those interface names are narrower than what they now carry. `ICanAddToCcBccOrSubject` also
+holds `ReplyTo`, and `ICanAddAttachmentOrBuild` also holds `AddAlternateView`, `AddHeader` and
+`DeliveryNotificationOptions`. Renaming either is a breaking change for anyone holding an
+intermediate step in a variable, so the names stand until that trade is decided.
+
+Everything optional lands on the last step rather than getting a step of its own, because each new
+step is another interface the sequence is frozen into.
 
 This is the reason the package exists. `MailMessage` requires a from address and a recipient at
 runtime but not at compile time, and the chain moves that failure to compile time.
@@ -48,13 +56,13 @@ the accumulating `MailMessage`; the interfaces only narrow what is visible at ea
 
 ### Recipients are de-duplicated by address, ignoring case
 
-Every `To`, `CC` and `BCC` overload builds a `MailAddress` and hands it to `AddIfNew`, which
-compares `MailAddress.Address` against the addresses already in that collection with
+Every `To`, `CC`, `BCC` and `ReplyTo` overload builds a `MailAddress` and hands it to `AddIfNew`,
+which compares `MailAddress.Address` against the addresses already in that collection with
 `OrdinalIgnoreCase`. Adding the same recipient twice is a no-op. Comparing the parsed address
 rather than the string the caller passed means `qwe@test.com` and `Qwe Test <qwe@test.com>` are
 recognized as the same person.
 
-The three collections are otherwise independent: an address in `To` does not stop the same address
+The four collections are otherwise independent: an address in `To` does not stop the same address
 being added to `CC`.
 
 ### Attachments are de-duplicated by filename, ignoring case
@@ -68,6 +76,30 @@ skipping a stream orphans it: the caller has already opened it, and only an atta
 actually added gets disposed when the `MailMessage` is. Two streams may also legitimately share a
 name, and `AddAttachment(Stream, ContentType)` has no name to key on at all when `ContentType.Name`
 is null.
+
+### A stream handed to AddAttachment is owned by the built MailMessage
+
+The three `AddAttachment(Stream, ...)` overloads never dispose the stream the caller opened.
+Ownership passes to the `Attachment`, and from there to the `MailMessage`, so the stream is closed
+when the caller disposes the message `Build()` returned, and not before. A caller who disposes the
+stream itself before sending gets a broken attachment.
+
+**Any overload that ever declines a stream has to dispose it**, or say in its own documentation
+that it does not. Today none decline, which is why the de-duplication above stops at the filename
+overloads, so the hazard is latent rather than live. The rule is written down here so it survives
+the next change to those overloads.
+
+`AlternateView` is the same shape: it owns the stream behind its content and is disposed with the
+`MailMessage`, so `AddAlternateView` follows the same rule.
+
+### Alternate views and headers are not de-duplicated
+
+An `AlternateView` has no key to compare on, and dropping one would leak its stream, so
+`AddAlternateView` keeps every view it is given.
+
+`AddHeader` calls `NameValueCollection.Add`, so a name used twice accumulates both values rather
+than the second replacing the first. Headers that legitimately repeat need that, and a builder
+method named `Add` that silently replaced would be the surprising choice.
 
 ### netstandard2.0
 

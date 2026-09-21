@@ -8,9 +8,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Tests.FluentEmail
 {
     /// <summary>
-    /// The CC and BCC overloads do the same work against a different collection, so both are
-    /// exercised by the tests here. A derived class supplies the overload to call and the
-    /// collection the addresses are expected to land in.
+    /// The CC, BCC and ReplyTo overloads do the same work against a different collection, so all
+    /// three are exercised by the tests here. A derived class supplies the overload to call and
+    /// the collection the addresses are expected to land in.
     /// </summary>
     public abstract class CopyRecipientMethodTests
     {
@@ -33,7 +33,8 @@ namespace Tests.FluentEmail
             ICanAddToCcBccOrSubject message, IEnumerable<MailAddress> emailAddresses);
 
         /// <summary>
-        /// The collection under test: <see cref="MailMessage.CC"/> or <see cref="MailMessage.Bcc"/>.
+        /// The collection under test: <see cref="MailMessage.CC"/>, <see cref="MailMessage.Bcc"/>
+        /// or <see cref="MailMessage.ReplyToList"/>.
         /// </summary>
         protected abstract MailAddressCollection RecipientsOf(MailMessage mailMessage);
 

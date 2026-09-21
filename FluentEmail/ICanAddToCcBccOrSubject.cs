@@ -24,6 +24,12 @@ namespace FluentEmail
         ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName, Encoding encodingType);
         ICanAddToCcBccOrSubject BCC(MailAddress emailAddress);
         ICanAddToCcBccOrSubject BCC(IEnumerable<MailAddress> emailAddresses);
+        ICanAddToCcBccOrSubject ReplyTo(string emailAddress);
+        ICanAddToCcBccOrSubject ReplyTo(IEnumerable<string> emailAddresses);
+        ICanAddToCcBccOrSubject ReplyTo(string emailAddress, string displayName);
+        ICanAddToCcBccOrSubject ReplyTo(string emailAddress, string displayName, Encoding encodingType);
+        ICanAddToCcBccOrSubject ReplyTo(MailAddress emailAddress);
+        ICanAddToCcBccOrSubject ReplyTo(IEnumerable<MailAddress> emailAddresses);
         IMustAddBody Subject(string subject);
         IMustAddBody Subject(string subject, Encoding encodingType);
     }
