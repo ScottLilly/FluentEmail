@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		CLAUDE.md = CLAUDE.md
+		envelope.png = envelope.png
 		INSTRUCTIONS.md = INSTRUCTIONS.md
 		LICENSE.md = LICENSE.md
 		README.md = README.md
@@ -20,10 +21,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{07C35CE0-DD44-4B29-A96E-028185C108A4}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{32C98AC1-8D4E-4FA6-81B4-445B3A72E22D}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
@@ -56,7 +60,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{07C35CE0-DD44-4B29-A96E-028185C108A4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{32C98AC1-8D4E-4FA6-81B4-445B3A72E22D} = {07C35CE0-DD44-4B29-A96E-028185C108A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
