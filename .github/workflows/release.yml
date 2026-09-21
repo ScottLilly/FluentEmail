@@ -1,7 +1,7 @@
 name: Release
 
 # Manually triggered from the Actions tab. Builds and tests the solution, packs the NuGet
-# package, and creates a GitHub Release with the .nupkg attached.
+# package, and creates a GitHub Release with the .nupkg and .snupkg attached.
 #
 # The version comes from <Version> in FluentEmail/FluentEmail.csproj, so the release tag can
 # never disagree with the package. Bump it there before running this, because the tag check
@@ -33,15 +33,17 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
+    # ContinuousIntegrationBuild makes the build deterministic and the Source Link paths
+    # portable, so the .snupkg matches what a debugger fetches from GitHub.
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore -p:ContinuousIntegrationBuild=true
 
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
 
     # The library is the only thing that ships. Tests.FluentEmail sets IsPackable=false, so
     # naming the project here is belt and braces rather than the only thing stopping a stray
-    # .nupkg.
+    # .nupkg. IncludeSymbols is on, so this also produces a .snupkg.
     - name: Pack
       run: dotnet pack FluentEmail/FluentEmail.csproj --configuration Release --no-build --output ./artifacts
 
@@ -107,10 +109,12 @@ jobs:
         if [ "${{ inputs.draft }}" = "true" ]; then
           ARGS+=(--draft)
         fi
-        gh release create "v$VERSION" "${ARGS[@]}" "${{ steps.package.outputs.path }}"
+        gh release create "v$VERSION" "${ARGS[@]}" ./artifacts/*.nupkg ./artifacts/*.snupkg
 
     - name: Upload the package as a build artifact
       uses: actions/upload-artifact@v7
       with:
         name: nuget-package
-        path: ./artifacts/*.nupkg
+        path: |
+          ./artifacts/*.nupkg
+          ./artifacts/*.snupkg

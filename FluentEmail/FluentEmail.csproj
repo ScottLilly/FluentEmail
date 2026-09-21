@@ -3,6 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <!-- Source Link is built into the SDK. These make the symbols usable from the .snupkg:
+         PublishRepositoryUrl writes the commit into the package, and EmbedUntrackedSources
+         covers any generated file the debugger would otherwise fail to find. release.yml
+         adds ContinuousIntegrationBuild=true so the CI build is deterministic. -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Company>Scott Lilly</Company>
     <Description>A fluent interface to simplify and enforce correct MailMessage instantiation.</Description>
     <Copyright>Copyright (c) 2022-2026 Scott Lilly</Copyright>
@@ -10,12 +18,20 @@
     <RepositoryUrl>https://github.com/ScottLilly/FluentEmail</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Authors>Scott Lilly</Authors>
-    <PackageTags>email, mailmessage, fluent interface</PackageTags>
+    <!-- Semicolon separated. NuGet splits on the semicolon and writes the tags space
+         separated into the nuspec, so a comma here would be packed as part of the tag
+         itself and match nothing anyone searches for. -->
+    <PackageTags>email;mailmessage;fluent;smtp;mail</PackageTags>
     <PackageIcon>envelope.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>ScottLilly.$(AssemblyName)</PackageId>
     <Version>1.1.0</Version>
+    <!-- The release workflow tags each release v$(Version), so this pins the notes to the
+         state they were in for this package rather than to whatever master says later.
+         It has to come after <Version>, because MSBuild evaluates a property group in order
+         and would otherwise substitute an empty string. -->
+    <PackageReleaseNotes>Release notes for this version: https://github.com/ScottLilly/FluentEmail/blob/v$(Version)/RELEASE_NOTES.md</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
