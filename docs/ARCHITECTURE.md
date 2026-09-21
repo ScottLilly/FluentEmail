@@ -91,10 +91,7 @@ Test project only: `MSTest`, `Microsoft.NET.Test.Sdk`, `coverlet.collector`.
 
 ## Open questions
 
-- Issue [#22](https://github.com/ScottLilly/FluentEmail/issues/22) proposes adding the ability to
-  send email, not just build a `MailMessage`. That changes the package from a builder with no I/O
-  into something that talks to an SMTP server, and it is the one open item that would reshape the
-  architecture rather than extend it.
+None.
 
 ## Decided against
 
@@ -104,3 +101,13 @@ with the reason, because a closed issue is not somewhere anyone looks before pro
 - De-duplicating the `Stream` attachment overloads the way the filename ones are de-duplicated.
   Dropping a stream the caller opened would leak it. See "Attachments are de-duplicated by
   filename, ignoring case" above for the whole reason.
+- Sending the message, rather than only building it. Every provider needs its own configuration
+  (SMTP with implicit or explicit TLS, OAuth2 for Microsoft and Google, Graph, the REST APIs),
+  none of it is work this package would do better than MailKit or FluentEmail.Core, and it would
+  cost the package the property the whole design rests on: no I/O, so every test runs without a
+  server. Decided September 2026.
+- Renaming the package to shed the name overlap with the FluentEmail packages on nuget.org
+  (FluentEmail.Core and its siblings, 15M downloads and up). The overlap is real and
+  `ScottLilly.FluentMailMessage` was free, but this package has 511 downloads across four years
+  and no sign of a user base, so renaming it, deprecating the old ID and relinking everything that
+  points at it costs more than the confusion does. Decided September 2026.
