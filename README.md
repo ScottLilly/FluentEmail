@@ -9,7 +9,7 @@ Designed to make email sending code easier to use and more natural sounding when
 ![Build Status](https://github.com/ScottLilly/FluentEmail/actions/workflows/build-and-test.yml/badge.svg)
 [![NuGet](https://img.shields.io/nuget/v/ScottLilly.FluentEmail)](https://www.nuget.org/packages/ScottLilly.FluentEmail/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/ScottLilly.FluentEmail)](https://www.nuget.org/packages/ScottLilly.FluentEmail/)
-[![License](https://img.shields.io/github/license/ScottLilly/FluentEmail)](https://github.com/ScottLilly/FluentEmail/LICENSE)
+[![License](https://img.shields.io/github/license/ScottLilly/FluentEmail)](https://github.com/ScottLilly/FluentEmail/blob/master/LICENSE.md)
 
 ## Instructions
 
@@ -26,7 +26,7 @@ MailMessage mailMessage =
         .CreateMailMessage()
         .From("from@test.com")
         .To("qwe@test.com", "Qwe Test")
-        .To(new MailMessage("jhg@test.com", "Jhg Test"))
+        .To(new MailAddress("jhg@test.com", "Jhg Test"))
         .CC("lkj@test.com")
         .CC("yui@test.com")
         .Subject("Hello")

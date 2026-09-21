@@ -4,9 +4,8 @@ name: Release
 # package, and creates a GitHub Release with the .nupkg attached.
 #
 # The version comes from <Version> in FluentEmail/FluentEmail.csproj, so the release tag can
-# never disagree with the package. Bump it there before running this. That project currently
-# has no <Version> element, so it packs as 1.0.0 and this workflow will stop at the tag check
-# until one is added.
+# never disagree with the package. Bump it there before running this, because the tag check
+# below refuses to run when a tag for that version already exists.
 on:
   workflow_dispatch:
     inputs:

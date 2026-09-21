@@ -8,15 +8,15 @@ Second, the functions available/visible through IntelliSense will force the deve
 As you build a MailMessage object with the FluentEmail package, the functions you use and the values you pass into them will be remembered and populated in MailMessage object you get back from the call to Build().  
 
 ## How to use FluentEmail  
-After including the NuGet package in your project, you can use the FluentEmailMessage class to build a MailMessage object.  
+After including the NuGet package in your project, you can use the FluentMailMessage class to build a MailMessage object.  
 
 ## Starting functions  
-Type "FluentEmailMessage", press the "." (period/dot/full stop) key, and you should see the two available functions to start building the MailMessage object: CreateMailMessage() and CreateHtmlMailMessage().  
+Type "FluentMailMessage", press the "." (period/dot/full stop) key, and you should see the two available functions to start building the MailMessage object: CreateMailMessage() and CreateHtmlMailMessage().  
 
 Both these functions accept an optional MailPriority parameter. If you don't pass in a value, the MailMessage will have its priority set to "normal".  
 
 ## Intermediate (chaining) functions
-From this point, press the "." again ad you will see the next available function: From().  
+From this point, press the "." again and you will see the next available function: From().  
 
 This is to ensure every MailMessage object has a From email address. This is required at runtime (when sending out a MailMessage) but is not required at compile time. This is the main reason behind using a fluent interface to build a MailMessage object - to eliminate/reduce runtime errors that wouldn't be caught during compilation.  
 
@@ -48,4 +48,4 @@ This was built using a program I wrote to help build fluent interface that enfor
 ## Support
 Please submit bugs and feature requests here: https://github.com/ScottLilly/FluentEmail/issues  
 
-The future feature plan is available here: https://github.com/ScottLilly/FluentEmail/projects/1  
+The future feature plan is available here: https://github.com/ScottLilly/FluentEmail/milestones  
