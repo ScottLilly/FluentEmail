@@ -122,8 +122,9 @@ dotnet_naming_rule.static_readonly_pascal.symbols = static_readonly_fields
 dotnet_naming_rule.static_readonly_pascal.style = pascal_case
 dotnet_naming_rule.static_readonly_pascal.severity = warning
 
-# Private static fields: s_camelCase, readonly or not. Listed after both rules
-# above so it beats them for the symbols it matches.
+# Private static fields: s_camelCase, readonly or not. Listed after the private
+# fields rule so it beats that one. The static readonly rule is kept off these
+# by accessibility instead, because order would not have beaten it.
 dotnet_naming_symbols.private_static_fields.applicable_kinds = field
 dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
 dotnet_naming_symbols.private_static_fields.required_modifiers = static
