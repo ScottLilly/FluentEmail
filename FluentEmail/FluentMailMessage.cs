@@ -8,67 +8,61 @@ using System.Net.Mime;
 
 namespace FluentEmail
 {
-	public class FluentMailMessage : IMustAddFromAddress, IMustAddToAddress, 
+    public class FluentMailMessage : IMustAddFromAddress, IMustAddToAddress,
         ICanAddToCcBccOrSubject, IMustAddBody, ICanAddAttachmentOrBuild
     {
         private readonly MailMessage _mailMessage = new MailMessage();
-		private readonly HashSet<string> _attachmentFileNames =
+        private readonly HashSet<string> _attachmentFileNames =
             new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-		// Private constructor
-		private FluentMailMessage(bool isHtml, MailPriority priority = MailPriority.Normal)
+        // Private constructor
+        private FluentMailMessage(bool isHtml, MailPriority priority = MailPriority.Normal)
         {
-			_mailMessage.IsBodyHtml = isHtml;
-			_mailMessage.Priority = priority;
+            _mailMessage.IsBodyHtml = isHtml;
+            _mailMessage.Priority = priority;
         }
 
-		// Instantiating functions
+        // Instantiating functions
 
-		public static IMustAddFromAddress CreateMailMessage(MailPriority priority = MailPriority.Normal)
-		{
-			return new FluentMailMessage(false, priority);
-		}
+        public static IMustAddFromAddress CreateMailMessage(MailPriority priority = MailPriority.Normal)
+        {
+            return new FluentMailMessage(false, priority);
+        }
 
-		public static IMustAddFromAddress CreateHtmlMailMessage(MailPriority priority = MailPriority.Normal)
-		{
-			return new FluentMailMessage(true, priority);
-		}
+        public static IMustAddFromAddress CreateHtmlMailMessage(MailPriority priority = MailPriority.Normal)
+        {
+            return new FluentMailMessage(true, priority);
+        }
 
-		// Chaining functions
+        // Chaining functions
 
-		#region From methods
-
-		public IMustAddToAddress From(string emailAddress)
+        public IMustAddToAddress From(string emailAddress)
         {
             _mailMessage.From = new MailAddress(emailAddress);
 
-			return this;
-		}
+            return this;
+        }
 
-		public IMustAddToAddress From(string emailAddress, string displayName)
-		{
+        public IMustAddToAddress From(string emailAddress, string displayName)
+        {
             _mailMessage.From = new MailAddress(emailAddress, displayName);
 
-			return this;
-		}
+            return this;
+        }
 
-		public IMustAddToAddress From(string emailAddress, string displayName, Encoding encodingType)
-		{
+        public IMustAddToAddress From(string emailAddress, string displayName, Encoding encodingType)
+        {
             _mailMessage.From = new MailAddress(emailAddress, displayName, encodingType);
 
-			return this;
-		}
+            return this;
+        }
 
-		public IMustAddToAddress From(MailAddress emailAddress)
-		{
+        public IMustAddToAddress From(MailAddress emailAddress)
+        {
             _mailMessage.From = emailAddress;
 
-			return this;
-		}
-
-		#endregion
-
-        #region To methods
+            return this;
+        }
 
         public ICanAddToCcBccOrSubject To(string emailAddress)
         {
@@ -100,10 +94,6 @@ namespace FluentEmail
             return AddIfNew(_mailMessage.To, emailAddresses);
         }
 
-        #endregion
-
-        #region CC methods
-
         public ICanAddToCcBccOrSubject CC(string emailAddress)
         {
             return AddIfNew(_mailMessage.CC, new MailAddress(emailAddress));
@@ -133,10 +123,6 @@ namespace FluentEmail
         {
             return AddIfNew(_mailMessage.CC, emailAddresses);
         }
-
-        #endregion
-
-        #region BCC methods
 
         public ICanAddToCcBccOrSubject BCC(string emailAddress)
         {
@@ -168,126 +154,106 @@ namespace FluentEmail
             return AddIfNew(_mailMessage.Bcc, emailAddresses);
         }
 
-        #endregion
+        public IMustAddBody Subject(string subject)
+        {
+            _mailMessage.Subject = subject;
 
-		#region Subject methods
+            return this;
+        }
 
-		public IMustAddBody Subject(string subject)
-		{
-			_mailMessage.Subject = subject;
-
-			return this;
-		}
-
-		public IMustAddBody Subject(string subject, Encoding encodingType)
+        public IMustAddBody Subject(string subject, Encoding encodingType)
         {
             _mailMessage.Subject = subject;
             _mailMessage.SubjectEncoding = encodingType;
 
-			return this;
-		}
+            return this;
+        }
 
-		#endregion
-
-		#region Body methods
-
-		public ICanAddAttachmentOrBuild Body(string body)
-		{
-			_mailMessage.Body = body;
-
-			return this;
-		}
-
-		public ICanAddAttachmentOrBuild Body(string body, Encoding encodingType)
-		{
+        public ICanAddAttachmentOrBuild Body(string body)
+        {
             _mailMessage.Body = body;
-			_mailMessage.BodyEncoding = encodingType;
 
-			return this;
-		}
+            return this;
+        }
 
-		#endregion
+        public ICanAddAttachmentOrBuild Body(string body, Encoding encodingType)
+        {
+            _mailMessage.Body = body;
+            _mailMessage.BodyEncoding = encodingType;
 
-		#region Attachments
+            return this;
+        }
 
-		public ICanAddAttachmentOrBuild AddAttachment(string filename)
-		{
-			AddAttachmentIfNew(filename);
+        public ICanAddAttachmentOrBuild AddAttachment(string filename)
+        {
+            AddAttachmentIfNew(filename);
 
-			return this;
-		}
+            return this;
+        }
 
-		public ICanAddAttachmentOrBuild AddAttachment(string filename, 
-			string mimeType)
-		{
-			AddAttachmentIfNew(filename, mimeType);
+        public ICanAddAttachmentOrBuild AddAttachment(string filename,
+            string mimeType)
+        {
+            AddAttachmentIfNew(filename, mimeType);
 
-			return this;
-		}
+            return this;
+        }
 
-		public ICanAddAttachmentOrBuild AddAttachment(string filename, 
-			ContentType contentType)
-		{
-			AddAttachmentIfNew(filename, contentType);
+        public ICanAddAttachmentOrBuild AddAttachment(string filename,
+            ContentType contentType)
+        {
+            AddAttachmentIfNew(filename, contentType);
 
-			return this;
-		}
+            return this;
+        }
 
-		// The three Stream overloads below deliberately skip the duplicate check the filename
-		// overloads use. Dropping a stream the caller has already opened would leak it, because
-		// only an attachment that is added gets disposed with the MailMessage. See
-		// docs/ARCHITECTURE.md.
+        // The three Stream overloads below deliberately skip the duplicate check the filename
+        // overloads use. Dropping a stream the caller has already opened would leak it, because
+        // only an attachment that is added gets disposed with the MailMessage. See
+        // docs/ARCHITECTURE.md.
 
-		public ICanAddAttachmentOrBuild AddAttachment(Stream stream,
-			string name)
-		{
-			_mailMessage.Attachments.Add(new Attachment(stream, name));
+        public ICanAddAttachmentOrBuild AddAttachment(Stream stream,
+            string name)
+        {
+            _mailMessage.Attachments.Add(new Attachment(stream, name));
 
-			return this;
-		}
+            return this;
+        }
 
-		public ICanAddAttachmentOrBuild AddAttachment(Stream stream,
-			string name, string mimeType)
-		{
-			_mailMessage.Attachments.Add(new Attachment(stream, name, mimeType));
+        public ICanAddAttachmentOrBuild AddAttachment(Stream stream,
+            string name, string mimeType)
+        {
+            _mailMessage.Attachments.Add(new Attachment(stream, name, mimeType));
 
-			return this;
-		}
+            return this;
+        }
 
-		public ICanAddAttachmentOrBuild AddAttachment(Stream stream,
-			ContentType contentType)
-		{
-			_mailMessage.Attachments.Add(new Attachment(stream, contentType));
+        public ICanAddAttachmentOrBuild AddAttachment(Stream stream,
+            ContentType contentType)
+        {
+            _mailMessage.Attachments.Add(new Attachment(stream, contentType));
 
-			return this;
-		}
+            return this;
+        }
 
-		public ICanAddAttachmentOrBuild AddAttachments(IEnumerable<string> filenames)
+        public ICanAddAttachmentOrBuild AddAttachments(IEnumerable<string> filenames)
         {
             foreach (var filename in filenames)
             {
-				AddAttachmentIfNew(filename);
+                AddAttachmentIfNew(filename);
             }
 
-			return this;
+            return this;
         }
 
-		#endregion
+        // Executing function(s)
 
-		// Executing function(s)
-
-		#region Build
-
-		public MailMessage Build()
+        public MailMessage Build()
         {
             return _mailMessage;
         }
 
-		#endregion
-
-		// Supporting function(s)
-
-		#region Private method(s)
+        // Supporting function(s)
 
         private ICanAddToCcBccOrSubject AddIfNew(MailAddressCollection collection, MailAddress emailAddress)
         {
@@ -310,93 +276,92 @@ namespace FluentEmail
             return this;
         }
 
-		private void AddAttachmentIfNew(string filename)
-		{
-			if (_attachmentFileNames.Add(filename))
-			{
-				_mailMessage.Attachments.Add(new Attachment(filename));
-			}
-		}
+        private void AddAttachmentIfNew(string filename)
+        {
+            if (_attachmentFileNames.Add(filename))
+            {
+                _mailMessage.Attachments.Add(new Attachment(filename));
+            }
+        }
 
-		private void AddAttachmentIfNew(string filename, string mimeType)
-		{
-			if (_attachmentFileNames.Add(filename))
-			{
-				_mailMessage.Attachments.Add(new Attachment(filename, mimeType));
-			}
-		}
+        private void AddAttachmentIfNew(string filename, string mimeType)
+        {
+            if (_attachmentFileNames.Add(filename))
+            {
+                _mailMessage.Attachments.Add(new Attachment(filename, mimeType));
+            }
+        }
 
-		private void AddAttachmentIfNew(string filename, ContentType contentType)
-		{
-			if (_attachmentFileNames.Add(filename))
-			{
-				_mailMessage.Attachments.Add(new Attachment(filename, contentType));
-			}
-		}
+        private void AddAttachmentIfNew(string filename, ContentType contentType)
+        {
+            if (_attachmentFileNames.Add(filename))
+            {
+                _mailMessage.Attachments.Add(new Attachment(filename, contentType));
+            }
+        }
 
-		#endregion
-	}
+    }
 
-	// Interfaces
+    // Interfaces
 
-	public interface IMustAddFromAddress
-	{
-		IMustAddToAddress From(string emailAddress);
-		IMustAddToAddress From(string emailAddress, string displayName);
-		IMustAddToAddress From(string emailAddress, string displayName, Encoding encodingType);
-		IMustAddToAddress From(MailAddress emailAddress);
-	}
+    public interface IMustAddFromAddress
+    {
+        IMustAddToAddress From(string emailAddress);
+        IMustAddToAddress From(string emailAddress, string displayName);
+        IMustAddToAddress From(string emailAddress, string displayName, Encoding encodingType);
+        IMustAddToAddress From(MailAddress emailAddress);
+    }
 
-	public interface IMustAddToAddress
-	{
-		ICanAddToCcBccOrSubject To(string emailAddress);
-		ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddresses);
-		ICanAddToCcBccOrSubject To(string emailAddress, string displayName);
-		ICanAddToCcBccOrSubject To(string emailAddress, string displayName, Encoding encodingType);
-		ICanAddToCcBccOrSubject To(MailAddress emailAddress);
-		ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddresses);
-	}
+    public interface IMustAddToAddress
+    {
+        ICanAddToCcBccOrSubject To(string emailAddress);
+        ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddresses);
+        ICanAddToCcBccOrSubject To(string emailAddress, string displayName);
+        ICanAddToCcBccOrSubject To(string emailAddress, string displayName, Encoding encodingType);
+        ICanAddToCcBccOrSubject To(MailAddress emailAddress);
+        ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddresses);
+    }
 
-	public interface ICanAddToCcBccOrSubject
-	{
-		ICanAddToCcBccOrSubject To(string emailAddress);
-		ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddresses);
-		ICanAddToCcBccOrSubject To(string emailAddress, string displayName);
-		ICanAddToCcBccOrSubject To(string emailAddress, string displayName, Encoding encodingType);
-		ICanAddToCcBccOrSubject To(MailAddress emailAddress);
-		ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddresses);
-		ICanAddToCcBccOrSubject CC(string emailAddress);
-		ICanAddToCcBccOrSubject CC(IEnumerable<string> emailAddresses);
-		ICanAddToCcBccOrSubject CC(string emailAddress, string displayName);
-		ICanAddToCcBccOrSubject CC(string emailAddress, string displayName, Encoding encodingType);
-		ICanAddToCcBccOrSubject CC(MailAddress emailAddress);
-		ICanAddToCcBccOrSubject CC(IEnumerable<MailAddress> emailAddresses);
-		ICanAddToCcBccOrSubject BCC(string emailAddress);
-		ICanAddToCcBccOrSubject BCC(IEnumerable<string> emailAddresses);
-		ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName);
-		ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName, Encoding encodingType);
-		ICanAddToCcBccOrSubject BCC(MailAddress emailAddress);
-		ICanAddToCcBccOrSubject BCC(IEnumerable<MailAddress> emailAddresses);
-		IMustAddBody Subject(string subject);
-		IMustAddBody Subject(string subject, Encoding encodingType);
-	}
+    public interface ICanAddToCcBccOrSubject
+    {
+        ICanAddToCcBccOrSubject To(string emailAddress);
+        ICanAddToCcBccOrSubject To(IEnumerable<string> emailAddresses);
+        ICanAddToCcBccOrSubject To(string emailAddress, string displayName);
+        ICanAddToCcBccOrSubject To(string emailAddress, string displayName, Encoding encodingType);
+        ICanAddToCcBccOrSubject To(MailAddress emailAddress);
+        ICanAddToCcBccOrSubject To(IEnumerable<MailAddress> emailAddresses);
+        ICanAddToCcBccOrSubject CC(string emailAddress);
+        ICanAddToCcBccOrSubject CC(IEnumerable<string> emailAddresses);
+        ICanAddToCcBccOrSubject CC(string emailAddress, string displayName);
+        ICanAddToCcBccOrSubject CC(string emailAddress, string displayName, Encoding encodingType);
+        ICanAddToCcBccOrSubject CC(MailAddress emailAddress);
+        ICanAddToCcBccOrSubject CC(IEnumerable<MailAddress> emailAddresses);
+        ICanAddToCcBccOrSubject BCC(string emailAddress);
+        ICanAddToCcBccOrSubject BCC(IEnumerable<string> emailAddresses);
+        ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName);
+        ICanAddToCcBccOrSubject BCC(string emailAddress, string displayName, Encoding encodingType);
+        ICanAddToCcBccOrSubject BCC(MailAddress emailAddress);
+        ICanAddToCcBccOrSubject BCC(IEnumerable<MailAddress> emailAddresses);
+        IMustAddBody Subject(string subject);
+        IMustAddBody Subject(string subject, Encoding encodingType);
+    }
 
-	public interface IMustAddBody
-	{
-		ICanAddAttachmentOrBuild Body(string body);
-		ICanAddAttachmentOrBuild Body(string body, Encoding encodingType);
-	}
+    public interface IMustAddBody
+    {
+        ICanAddAttachmentOrBuild Body(string body);
+        ICanAddAttachmentOrBuild Body(string body, Encoding encodingType);
+    }
 
-	public interface ICanAddAttachmentOrBuild
-	{
-		ICanAddAttachmentOrBuild AddAttachment(string filename);
-		ICanAddAttachmentOrBuild AddAttachment(string filename, string mimeType);
-		ICanAddAttachmentOrBuild AddAttachment(string filename, ContentType contentType);
-		ICanAddAttachmentOrBuild AddAttachment(Stream stream, string name);
-		ICanAddAttachmentOrBuild AddAttachment(Stream stream, string name, string mimeType);
-		ICanAddAttachmentOrBuild AddAttachment(Stream stream, ContentType contentType);
-		ICanAddAttachmentOrBuild AddAttachments(IEnumerable<string> filenames);
-		MailMessage Build();
-	}
+    public interface ICanAddAttachmentOrBuild
+    {
+        ICanAddAttachmentOrBuild AddAttachment(string filename);
+        ICanAddAttachmentOrBuild AddAttachment(string filename, string mimeType);
+        ICanAddAttachmentOrBuild AddAttachment(string filename, ContentType contentType);
+        ICanAddAttachmentOrBuild AddAttachment(Stream stream, string name);
+        ICanAddAttachmentOrBuild AddAttachment(Stream stream, string name, string mimeType);
+        ICanAddAttachmentOrBuild AddAttachment(Stream stream, ContentType contentType);
+        ICanAddAttachmentOrBuild AddAttachments(IEnumerable<string> filenames);
+        MailMessage Build();
+    }
 
 }

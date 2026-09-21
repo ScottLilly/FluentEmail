@@ -1,4 +1,4 @@
-﻿using System.Net.Mail;
+using System.Net.Mail;
 using FluentEmail;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
